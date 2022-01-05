@@ -1,0 +1,2128 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : FreeWare ANSI-C Compiler
+                              3 ; Version 2.2.1 Wed Jan 05 04:46:01 2022
+                              4 
+                              5 ;--------------------------------------------------------
+                              6 	.module lcc177280
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _main
+                             12 	.globl _RestartGame
+                             13 	.globl _UpdateScore
+                             14 	.globl _Render
+                             15 	.globl _printf
+                             16 	.globl _font_load
+                             17 	.globl _font_init
+                             18 	.globl _move_sprite
+                             19 	.globl _set_sprite_tile
+                             20 	.globl _set_sprite_data
+                             21 	.globl _joypad
+                             22 	.globl _delay
+                             23 	.globl _enemyScore
+                             24 	.globl _playerScore
+                             25 	.globl _enemyPaddle
+                             26 	.globl _paddle
+                             27 	.globl _ballDirectionY
+                             28 	.globl _ballDirectionX
+                             29 	.globl _ballPositionY
+                             30 	.globl _ballPositionX
+                             31 	.globl _Sprites
+                             32 	.globl _main
+                             33 	.globl _RestartGame
+                             34 	.globl _UpdateScore
+                             35 	.globl _ENEMY_PADDLE_BOTTON
+                             36 	.globl _ENEMY_PADDLE_TOP
+                             37 	.globl _PADDLE_BOTTON
+                             38 	.globl _PADDLE_TOP
+                             39 	.globl _BALL
+                             40 	.globl _PADDLE_SPRITE
+                             41 	.globl _BALL_SPRITE
+                             42 	.globl _Render
+                             43 ;--------------------------------------------------------
+                             44 ; Externals used
+                             45 ;--------------------------------------------------------
+                             46 	.globl _IE_REG
+                             47 	.globl _SVBK_REG
+                             48 	.globl _OCPD_REG
+                             49 	.globl _OCPS_REG
+                             50 	.globl _BCPD_REG
+                             51 	.globl _BCPS_REG
+                             52 	.globl _RP_REG
+                             53 	.globl _HDMA5_REG
+                             54 	.globl _HDMA4_REG
+                             55 	.globl _HDMA3_REG
+                             56 	.globl _HDMA2_REG
+                             57 	.globl _HDMA1_REG
+                             58 	.globl _VBK_REG
+                             59 	.globl _KEY1_REG
+                             60 	.globl _WX_REG
+                             61 	.globl _WY_REG
+                             62 	.globl _OBP1_REG
+                             63 	.globl _OBP0_REG
+                             64 	.globl _BGP_REG
+                             65 	.globl _DMA_REG
+                             66 	.globl _LYC_REG
+                             67 	.globl _LY_REG
+                             68 	.globl _SCX_REG
+                             69 	.globl _SCY_REG
+                             70 	.globl _STAT_REG
+                             71 	.globl _LCDC_REG
+                             72 	.globl _NR52_REG
+                             73 	.globl _NR51_REG
+                             74 	.globl _NR50_REG
+                             75 	.globl _NR44_REG
+                             76 	.globl _NR43_REG
+                             77 	.globl _NR42_REG
+                             78 	.globl _NR41_REG
+                             79 	.globl _NR34_REG
+                             80 	.globl _NR33_REG
+                             81 	.globl _NR32_REG
+                             82 	.globl _NR31_REG
+                             83 	.globl _NR30_REG
+                             84 	.globl _NR24_REG
+                             85 	.globl _NR23_REG
+                             86 	.globl _NR22_REG
+                             87 	.globl _NR21_REG
+                             88 	.globl _NR14_REG
+                             89 	.globl _NR13_REG
+                             90 	.globl _NR12_REG
+                             91 	.globl _NR11_REG
+                             92 	.globl _NR10_REG
+                             93 	.globl _IF_REG
+                             94 	.globl _TAC_REG
+                             95 	.globl _TMA_REG
+                             96 	.globl _TIMA_REG
+                             97 	.globl _DIV_REG
+                             98 	.globl _SC_REG
+                             99 	.globl _SB_REG
+                            100 	.globl _P1_REG
+                            101 	.globl _font_ibm_fixed
+                            102 	.globl _font_min
+                            103 	.globl _font_ibm
+                            104 	.globl _font_italic
+                            105 	.globl _font_spect
+                            106 	.globl __io_out
+                            107 	.globl __io_in
+                            108 	.globl __io_status
+                            109 	.globl _sys_time
+                            110 	.globl __cpu
+                            111 ;--------------------------------------------------------
+                            112 ; special function registers
+                            113 ;--------------------------------------------------------
+                            114 ;--------------------------------------------------------
+                            115 ; special function bits 
+                            116 ;--------------------------------------------------------
+                            117 ;--------------------------------------------------------
+                            118 ; internal ram data
+                            119 ;--------------------------------------------------------
+                            120 	.area _DATA
+   0000                     121 _Sprites::
+   0000                     122 	.ds 32
+   0020                     123 _ballPositionX::
+   0020                     124 	.ds 2
+   0022                     125 _ballPositionY::
+   0022                     126 	.ds 2
+   0024                     127 _ballDirectionX::
+   0024                     128 	.ds 1
+   0025                     129 _ballDirectionY::
+   0025                     130 	.ds 1
+   0026                     131 _paddle::
+   0026                     132 	.ds 2
+   0028                     133 _enemyPaddle::
+   0028                     134 	.ds 2
+   002A                     135 _playerScore::
+   002A                     136 	.ds 2
+   002C                     137 _enemyScore::
+   002C                     138 	.ds 2
+                            139 ;--------------------------------------------------------
+                            140 ; overlayable items in internal ram 
+                            141 ;--------------------------------------------------------
+                            142 	.area _OVERLAY
+                            143 ;--------------------------------------------------------
+                            144 ; indirectly addressable internal ram data
+                            145 ;--------------------------------------------------------
+                            146 	.area _ISEG
+                            147 ;--------------------------------------------------------
+                            148 ; bit data
+                            149 ;--------------------------------------------------------
+                            150 	.area _BSEG
+                            151 ;--------------------------------------------------------
+                            152 ; external ram data
+                            153 ;--------------------------------------------------------
+                            154 	.area _XSEG
+                            155 ;--------------------------------------------------------
+                            156 ; global & static initialisations
+                            157 ;--------------------------------------------------------
+                            158 	.area _GSINIT
+                            159 	.area _GSFINAL
+                            160 	.area _GSINIT
+                            161 ;	main.c 213
+                            162 ; genAssign (pointer)
+   0000 11 00 00            163 	ld	de,#_Sprites + 0
+   0003 3E 3C               164 	ld	a,#0x3C
+   0005 12                  165 	ld	(de),a
+                            166 ; genPlus
+                            167 ; genPlusIncr
+   0006 11 01 00            168 	ld	de,#_Sprites + 0 + 1
+                            169 ; genAssign (pointer)
+   0009 3E 3C               170 	ld	a,#0x3C
+   000B 12                  171 	ld	(de),a
+                            172 ; genPlus
+                            173 ; genPlusIncr
+   000C 11 02 00            174 	ld	de,#_Sprites + 0 + 2
+                            175 ; genAssign (pointer)
+   000F 3E 42               176 	ld	a,#0x42
+   0011 12                  177 	ld	(de),a
+                            178 ; genPlus
+                            179 ; genPlusIncr
+   0012 11 03 00            180 	ld	de,#_Sprites + 0 + 3
+                            181 ; genAssign (pointer)
+   0015 3E 72               182 	ld	a,#0x72
+   0017 12                  183 	ld	(de),a
+                            184 ; genPlus
+                            185 ; genPlusIncr
+   0018 11 04 00            186 	ld	de,#_Sprites + 0 + 4
+                            187 ; genAssign (pointer)
+   001B 3E 81               188 	ld	a,#0x81
+   001D 12                  189 	ld	(de),a
+                            190 ; genPlus
+                            191 ; genPlusIncr
+   001E 11 05 00            192 	ld	de,#_Sprites + 0 + 5
+                            193 ; genAssign (pointer)
+   0021 3E F3               194 	ld	a,#0xF3
+   0023 12                  195 	ld	(de),a
+                            196 ; genPlus
+                            197 ; genPlusIncr
+   0024 11 06 00            198 	ld	de,#_Sprites + 0 + 6
+                            199 ; genAssign (pointer)
+   0027 3E 81               200 	ld	a,#0x81
+   0029 12                  201 	ld	(de),a
+                            202 ; genPlus
+                            203 ; genPlusIncr
+   002A 11 07 00            204 	ld	de,#_Sprites + 0 + 7
+                            205 ; genAssign (pointer)
+   002D 3E FF               206 	ld	a,#0xFF
+   002F 12                  207 	ld	(de),a
+                            208 ; genPlus
+                            209 ; genPlusIncr
+   0030 11 08 00            210 	ld	de,#_Sprites + 0 + 8
+                            211 ; genAssign (pointer)
+   0033 3E 81               212 	ld	a,#0x81
+   0035 12                  213 	ld	(de),a
+                            214 ; genPlus
+                            215 ; genPlusIncr
+   0036 11 09 00            216 	ld	de,#_Sprites + 0 + 9
+                            217 ; genAssign (pointer)
+   0039 3E FF               218 	ld	a,#0xFF
+   003B 12                  219 	ld	(de),a
+                            220 ; genPlus
+                            221 ; genPlusIncr
+   003C 11 0A 00            222 	ld	de,#_Sprites + 0 + 10
+                            223 ; genAssign (pointer)
+   003F 3E 81               224 	ld	a,#0x81
+   0041 12                  225 	ld	(de),a
+                            226 ; genPlus
+                            227 ; genPlusIncr
+   0042 11 0B 00            228 	ld	de,#_Sprites + 0 + 11
+                            229 ; genAssign (pointer)
+   0045 3E FF               230 	ld	a,#0xFF
+   0047 12                  231 	ld	(de),a
+                            232 ; genPlus
+                            233 ; genPlusIncr
+   0048 11 0C 00            234 	ld	de,#_Sprites + 0 + 12
+                            235 ; genAssign (pointer)
+   004B 3E 42               236 	ld	a,#0x42
+   004D 12                  237 	ld	(de),a
+                            238 ; genPlus
+                            239 ; genPlusIncr
+   004E 11 0D 00            240 	ld	de,#_Sprites + 0 + 13
+                            241 ; genAssign (pointer)
+   0051 3E 7E               242 	ld	a,#0x7E
+   0053 12                  243 	ld	(de),a
+                            244 ; genPlus
+                            245 ; genPlusIncr
+   0054 11 0E 00            246 	ld	de,#_Sprites + 0 + 14
+                            247 ; genAssign (pointer)
+   0057 3E 3C               248 	ld	a,#0x3C
+   0059 12                  249 	ld	(de),a
+                            250 ; genPlus
+                            251 ; genPlusIncr
+   005A 11 0F 00            252 	ld	de,#_Sprites + 0 + 15
+                            253 ; genAssign (pointer)
+   005D 3E 3C               254 	ld	a,#0x3C
+   005F 12                  255 	ld	(de),a
+                            256 ; genPlus
+                            257 ; genPlusIncr
+   0060 11 10 00            258 	ld	de,#_Sprites + 0 + 16
+                            259 ; genAssign (pointer)
+   0063 3E 10               260 	ld	a,#0x10
+   0065 12                  261 	ld	(de),a
+                            262 ; genPlus
+                            263 ; genPlusIncr
+   0066 11 11 00            264 	ld	de,#_Sprites + 0 + 17
+                            265 ; genAssign (pointer)
+   0069 3E 10               266 	ld	a,#0x10
+   006B 12                  267 	ld	(de),a
+                            268 ; genPlus
+                            269 ; genPlusIncr
+   006C 11 12 00            270 	ld	de,#_Sprites + 0 + 18
+                            271 ; genAssign (pointer)
+   006F 3E 10               272 	ld	a,#0x10
+   0071 12                  273 	ld	(de),a
+                            274 ; genPlus
+                            275 ; genPlusIncr
+   0072 11 13 00            276 	ld	de,#_Sprites + 0 + 19
+                            277 ; genAssign (pointer)
+   0075 3E 10               278 	ld	a,#0x10
+   0077 12                  279 	ld	(de),a
+                            280 ; genPlus
+                            281 ; genPlusIncr
+   0078 11 14 00            282 	ld	de,#_Sprites + 0 + 20
+                            283 ; genAssign (pointer)
+   007B 3E 10               284 	ld	a,#0x10
+   007D 12                  285 	ld	(de),a
+                            286 ; genPlus
+                            287 ; genPlusIncr
+   007E 11 15 00            288 	ld	de,#_Sprites + 0 + 21
+                            289 ; genAssign (pointer)
+   0081 3E 10               290 	ld	a,#0x10
+   0083 12                  291 	ld	(de),a
+                            292 ; genPlus
+                            293 ; genPlusIncr
+   0084 11 16 00            294 	ld	de,#_Sprites + 0 + 22
+                            295 ; genAssign (pointer)
+   0087 3E 10               296 	ld	a,#0x10
+   0089 12                  297 	ld	(de),a
+                            298 ; genPlus
+                            299 ; genPlusIncr
+   008A 11 17 00            300 	ld	de,#_Sprites + 0 + 23
+                            301 ; genAssign (pointer)
+   008D 3E 10               302 	ld	a,#0x10
+   008F 12                  303 	ld	(de),a
+                            304 ; genPlus
+                            305 ; genPlusIncr
+   0090 11 18 00            306 	ld	de,#_Sprites + 0 + 24
+                            307 ; genAssign (pointer)
+   0093 3E 10               308 	ld	a,#0x10
+   0095 12                  309 	ld	(de),a
+                            310 ; genPlus
+                            311 ; genPlusIncr
+   0096 11 19 00            312 	ld	de,#_Sprites + 0 + 25
+                            313 ; genAssign (pointer)
+   0099 3E 10               314 	ld	a,#0x10
+   009B 12                  315 	ld	(de),a
+                            316 ; genPlus
+                            317 ; genPlusIncr
+   009C 11 1A 00            318 	ld	de,#_Sprites + 0 + 26
+                            319 ; genAssign (pointer)
+   009F 3E 10               320 	ld	a,#0x10
+   00A1 12                  321 	ld	(de),a
+                            322 ; genPlus
+                            323 ; genPlusIncr
+   00A2 11 1B 00            324 	ld	de,#_Sprites + 0 + 27
+                            325 ; genAssign (pointer)
+   00A5 3E 10               326 	ld	a,#0x10
+   00A7 12                  327 	ld	(de),a
+                            328 ; genPlus
+                            329 ; genPlusIncr
+   00A8 11 1C 00            330 	ld	de,#_Sprites + 0 + 28
+                            331 ; genAssign (pointer)
+   00AB 3E 10               332 	ld	a,#0x10
+   00AD 12                  333 	ld	(de),a
+                            334 ; genPlus
+                            335 ; genPlusIncr
+   00AE 11 1D 00            336 	ld	de,#_Sprites + 0 + 29
+                            337 ; genAssign (pointer)
+   00B1 3E 10               338 	ld	a,#0x10
+   00B3 12                  339 	ld	(de),a
+                            340 ; genPlus
+                            341 ; genPlusIncr
+   00B4 11 1E 00            342 	ld	de,#_Sprites + 0 + 30
+                            343 ; genAssign (pointer)
+   00B7 3E 10               344 	ld	a,#0x10
+   00B9 12                  345 	ld	(de),a
+                            346 ; genPlus
+                            347 ; genPlusIncr
+   00BA 11 1F 00            348 	ld	de,#_Sprites + 0 + 31
+                            349 ; genAssign (pointer)
+   00BD 3E 10               350 	ld	a,#0x10
+   00BF 12                  351 	ld	(de),a
+                            352 ;	main.c 213
+                            353 ; genAssign
+                            354 ; AOP_HL for _ballPositionX
+   00C0 21 20 00            355 	ld	hl,#_ballPositionX + 0
+   00C3 36 A0               356 	ld	(hl),#0xA0
+   00C5 23                  357 	inc	hl
+   00C6 36 02               358 	ld	(hl),#0x02
+                            359 ;	main.c 213
+                            360 ; genAssign
+                            361 ; AOP_HL for _ballPositionY
+   00C8 21 22 00            362 	ld	hl,#_ballPositionY + 0
+   00CB 36 60               363 	ld	(hl),#0x60
+   00CD 23                  364 	inc	hl
+   00CE 36 02               365 	ld	(hl),#0x02
+                            366 ;	main.c 213
+                            367 ; genAssign
+                            368 ; AOP_HL for _ballDirectionX
+   00D0 21 24 00            369 	ld	hl,#_ballDirectionX + 0
+   00D3 36 FF               370 	ld	(hl),#0xFF
+                            371 ;	main.c 213
+                            372 ; genAssign
+                            373 ; AOP_HL for _ballDirectionY
+   00D5 21 25 00            374 	ld	hl,#_ballDirectionY + 0
+   00D8 36 00               375 	ld	(hl),#0x00
+                            376 ;	main.c 213
+                            377 ; genAssign
+                            378 ; AOP_HL for _paddle
+   00DA 21 26 00            379 	ld	hl,#_paddle + 0
+   00DD 36 48               380 	ld	(hl),#0x48
+   00DF 23                  381 	inc	hl
+   00E0 36 00               382 	ld	(hl),#0x00
+                            383 ;	main.c 213
+                            384 ; genAssign
+                            385 ; AOP_HL for _enemyPaddle
+   00E2 21 28 00            386 	ld	hl,#_enemyPaddle + 0
+   00E5 36 48               387 	ld	(hl),#0x48
+   00E7 23                  388 	inc	hl
+   00E8 36 00               389 	ld	(hl),#0x00
+                            390 ;	main.c 213
+                            391 ; genAssign
+                            392 ; AOP_HL for _playerScore
+   00EA 21 2A 00            393 	ld	hl,#_playerScore + 0
+   00ED 36 00               394 	ld	(hl),#0x00
+   00EF 23                  395 	inc	hl
+   00F0 36 00               396 	ld	(hl),#0x00
+                            397 ;	main.c 213
+                            398 ; genAssign
+                            399 ; AOP_HL for _enemyScore
+   00F2 21 2C 00            400 	ld	hl,#_enemyScore + 0
+   00F5 36 00               401 	ld	(hl),#0x00
+   00F7 23                  402 	inc	hl
+   00F8 36 00               403 	ld	(hl),#0x00
+                            404 ;--------------------------------------------------------
+                            405 ; Home
+                            406 ;--------------------------------------------------------
+                            407 	.area _HOME
+                            408 	.area _CODE
+                            409 ;--------------------------------------------------------
+                            410 ; code
+                            411 ;--------------------------------------------------------
+                            412 	.area _CODE
+                            413 ;	main.c 41
+                            414 ; genLabel
+                            415 ; genFunction
+                            416 ;	---------------------------------
+                            417 ; Function Render
+                            418 ; ---------------------------------
+   0000                     419 ___Render_start:
+   0000                     420 _Render:
+   0000 C5                  421 	push	bc
+   0001 E8 FD               422 	lda	sp,-3(sp)
+                            423 ;	main.c 45
+                            424 ; genRightShift
+                            425 ; AOP_HL for _ballPositionY
+                            426 ; shift right 	result 2, left 2
+   0003 21 22 00            427 	ld	hl,#_ballPositionY + 0
+   0006 4E                  428 	ld	c,(hl)
+   0007 23                  429 	inc	hl
+   0008 46                  430 	ld	b,(hl)
+   0009 3E 04               431 	ld	a,#0x03+1
+   000B 18 05               432 	jr	00104$
+   000D                     433 00103$:
+   000D B7                  434 	or	a,a
+   000E CB 18               435 	rr	b
+   0010 CB 19               436 	rr	c
+   0012                     437 00104$:
+   0012 3D                  438 	dec	a
+   0013 20 F8               439 	jr	nz,00103$
+                            440 ; genCast
+                            441 ; AOP_STK for _Render_sloc0_1_0
+   0015 F8 02               442 	lda	hl,2(sp)
+   0017 71                  443 	ld	(hl),c
+                            444 ; genRightShift
+                            445 ; AOP_HL for _ballPositionX
+                            446 ; AOP_STK for _Render_sloc1_1_0
+                            447 ; shift right 	result 2, left 2
+   0018 21 20 00            448 	ld	hl,#_ballPositionX + 0
+   001B 7E                  449 	ld	a,(hl)
+   001C F8 00               450 	lda	hl,0(sp)
+   001E 77                  451 	ld	(hl),a
+   001F 21 21 00            452 	ld	hl,#_ballPositionX + 0 + 1
+   0022 7E                  453 	ld	a,(hl)
+   0023 F8 01               454 	lda	hl,1(sp)
+   0025 77                  455 	ld	(hl),a
+   0026 3E 04               456 	ld	a,#0x03+1
+   0028 18 08               457 	jr	00106$
+   002A                     458 00105$:
+   002A B7                  459 	or	a,a
+   002B F8 01               460 	lda	hl,1(sp)
+   002D CB 1E               461 	rr	(hl)
+   002F 2B                  462 	dec	hl
+   0030 CB 1E               463 	rr	(hl)
+   0032                     464 00106$:
+   0032 3D                  465 	dec	a
+   0033 20 F5               466 	jr	nz,00105$
+                            467 ; genCast
+                            468 ; AOP_STK for _Render_sloc1_1_0
+                            469 ; genAssign
+                            470 ; AOP_HL for _BALL
+   0035 21 D3 00            471 	ld	hl,#_BALL + 0
+   0038 4E                  472 	ld	c,(hl)
+                            473 ; genIpush
+                            474 ; AOP_STK for _Render_sloc0_1_0
+   0039 F8 02               475 	lda	hl,2(sp)
+   003B 7E                  476 	ld	a,(hl)
+   003C F5                  477 	push	af
+   003D 33                  478 	inc	sp
+                            479 ; genIpush
+                            480 ; AOP_STK for _Render_sloc1_1_0
+   003E 2B                  481 	dec	hl
+   003F 2B                  482 	dec	hl
+   0040 7E                  483 	ld	a,(hl)
+   0041 F5                  484 	push	af
+   0042 33                  485 	inc	sp
+                            486 ; genIpush
+   0043 79                  487 	ld	a,c
+   0044 F5                  488 	push	af
+   0045 33                  489 	inc	sp
+                            490 ; genCall
+   0046 CD 00 00            491 	call	_move_sprite
+   0049 E8 03               492 	lda	sp,3(sp)
+                            493 ;	main.c 46
+                            494 ; genCast
+                            495 ; AOP_HL for _paddle
+                            496 ; AOP_STK for _Render_sloc1_1_0
+   004B 21 26 00            497 	ld	hl,#_paddle + 0
+   004E 7E                  498 	ld	a,(hl)
+   004F F8 00               499 	lda	hl,0(sp)
+   0051 77                  500 	ld	(hl),a
+                            501 ; genAssign
+                            502 ; AOP_HL for _PADDLE_TOP
+   0052 21 D4 00            503 	ld	hl,#_PADDLE_TOP + 0
+   0055 4E                  504 	ld	c,(hl)
+                            505 ; genIpush
+                            506 ; AOP_STK for _Render_sloc1_1_0
+   0056 F8 00               507 	lda	hl,0(sp)
+   0058 7E                  508 	ld	a,(hl)
+   0059 F5                  509 	push	af
+   005A 33                  510 	inc	sp
+                            511 ; genIpush
+   005B 3E 08               512 	ld	a,#0x08
+   005D F5                  513 	push	af
+   005E 33                  514 	inc	sp
+                            515 ; genIpush
+   005F 79                  516 	ld	a,c
+   0060 F5                  517 	push	af
+   0061 33                  518 	inc	sp
+                            519 ; genCall
+   0062 CD 00 00            520 	call	_move_sprite
+   0065 E8 03               521 	lda	sp,3(sp)
+                            522 ;	main.c 47
+                            523 ; genPlus
+                            524 ; AOP_HL for _paddle
+                            525 ; AOP_STK for _Render_sloc1_1_0
+                            526 ; genPlusIncr
+                            527 ;	genPlusIncr failed
+   0067 21 26 00            528 	ld	hl,#_paddle + 0
+   006A 5E                  529 	ld	e,(hl)
+   006B 23                  530 	inc	hl
+   006C 56                  531 	ld	d,(hl)
+   006D 21 08 00            532 	ld	hl,#0x0008
+   0070 19                  533 	add	hl,de
+   0071 7D                  534 	ld	a,l
+   0072 54                  535 	ld	d,h
+   0073 F8 00               536 	lda	hl,0(sp)
+   0075 22                  537 	ld	(hl+),a
+   0076 72                  538 	ld	(hl),d
+                            539 ; genCast
+                            540 ; AOP_STK for _Render_sloc1_1_0
+                            541 ; genAssign
+                            542 ; AOP_HL for _PADDLE_BOTTON
+   0077 21 D5 00            543 	ld	hl,#_PADDLE_BOTTON + 0
+   007A 4E                  544 	ld	c,(hl)
+                            545 ; genIpush
+                            546 ; AOP_STK for _Render_sloc1_1_0
+   007B F8 00               547 	lda	hl,0(sp)
+   007D 7E                  548 	ld	a,(hl)
+   007E F5                  549 	push	af
+   007F 33                  550 	inc	sp
+                            551 ; genIpush
+   0080 3E 08               552 	ld	a,#0x08
+   0082 F5                  553 	push	af
+   0083 33                  554 	inc	sp
+                            555 ; genIpush
+   0084 79                  556 	ld	a,c
+   0085 F5                  557 	push	af
+   0086 33                  558 	inc	sp
+                            559 ; genCall
+   0087 CD 00 00            560 	call	_move_sprite
+   008A E8 03               561 	lda	sp,3(sp)
+                            562 ;	main.c 49
+                            563 ; genCast
+                            564 ; AOP_HL for _enemyPaddle
+                            565 ; AOP_STK for _Render_sloc1_1_0
+   008C 21 28 00            566 	ld	hl,#_enemyPaddle + 0
+   008F 7E                  567 	ld	a,(hl)
+   0090 F8 00               568 	lda	hl,0(sp)
+   0092 77                  569 	ld	(hl),a
+                            570 ; genAssign
+                            571 ; AOP_HL for _ENEMY_PADDLE_TOP
+   0093 21 D6 00            572 	ld	hl,#_ENEMY_PADDLE_TOP + 0
+   0096 4E                  573 	ld	c,(hl)
+                            574 ; genIpush
+                            575 ; AOP_STK for _Render_sloc1_1_0
+   0097 F8 00               576 	lda	hl,0(sp)
+   0099 7E                  577 	ld	a,(hl)
+   009A F5                  578 	push	af
+   009B 33                  579 	inc	sp
+                            580 ; genIpush
+   009C 3E A0               581 	ld	a,#0xA0
+   009E F5                  582 	push	af
+   009F 33                  583 	inc	sp
+                            584 ; genIpush
+   00A0 79                  585 	ld	a,c
+   00A1 F5                  586 	push	af
+   00A2 33                  587 	inc	sp
+                            588 ; genCall
+   00A3 CD 00 00            589 	call	_move_sprite
+   00A6 E8 03               590 	lda	sp,3(sp)
+                            591 ;	main.c 50
+                            592 ; genPlus
+                            593 ; AOP_HL for _enemyPaddle
+                            594 ; AOP_STK for _Render_sloc1_1_0
+                            595 ; genPlusIncr
+                            596 ;	genPlusIncr failed
+   00A8 21 28 00            597 	ld	hl,#_enemyPaddle + 0
+   00AB 5E                  598 	ld	e,(hl)
+   00AC 23                  599 	inc	hl
+   00AD 56                  600 	ld	d,(hl)
+   00AE 21 08 00            601 	ld	hl,#0x0008
+   00B1 19                  602 	add	hl,de
+   00B2 7D                  603 	ld	a,l
+   00B3 54                  604 	ld	d,h
+   00B4 F8 00               605 	lda	hl,0(sp)
+   00B6 22                  606 	ld	(hl+),a
+   00B7 72                  607 	ld	(hl),d
+                            608 ; genCast
+                            609 ; AOP_STK for _Render_sloc1_1_0
+                            610 ; genAssign
+                            611 ; AOP_HL for _ENEMY_PADDLE_BOTTON
+   00B8 21 D7 00            612 	ld	hl,#_ENEMY_PADDLE_BOTTON + 0
+   00BB 4E                  613 	ld	c,(hl)
+                            614 ; genIpush
+                            615 ; AOP_STK for _Render_sloc1_1_0
+   00BC F8 00               616 	lda	hl,0(sp)
+   00BE 7E                  617 	ld	a,(hl)
+   00BF F5                  618 	push	af
+   00C0 33                  619 	inc	sp
+                            620 ; genIpush
+   00C1 3E A0               621 	ld	a,#0xA0
+   00C3 F5                  622 	push	af
+   00C4 33                  623 	inc	sp
+                            624 ; genIpush
+   00C5 79                  625 	ld	a,c
+   00C6 F5                  626 	push	af
+   00C7 33                  627 	inc	sp
+                            628 ; genCall
+   00C8 CD 00 00            629 	call	_move_sprite
+   00CB E8 03               630 	lda	sp,3(sp)
+                            631 ; genLabel
+   00CD                     632 00101$:
+                            633 ; genEndFunction
+   00CD E8 03               634 	lda	sp,3(sp)
+   00CF C1                  635 	pop	bc
+   00D0 C9                  636 	ret
+   00D1                     637 ___Render_end:
+   00D1                     638 _BALL_SPRITE:
+   00D1 00                  639 	.db #0x00
+   00D2                     640 _PADDLE_SPRITE:
+   00D2 01                  641 	.db #0x01
+   00D3                     642 _BALL:
+   00D3 00                  643 	.db #0x00
+   00D4                     644 _PADDLE_TOP:
+   00D4 01                  645 	.db #0x01
+   00D5                     646 _PADDLE_BOTTON:
+   00D5 02                  647 	.db #0x02
+   00D6                     648 _ENEMY_PADDLE_TOP:
+   00D6 03                  649 	.db #0x03
+   00D7                     650 _ENEMY_PADDLE_BOTTON:
+   00D7 04                  651 	.db #0x04
+                            652 ;	main.c 53
+                            653 ; genLabel
+                            654 ; genFunction
+                            655 ;	---------------------------------
+                            656 ; Function UpdateScore
+                            657 ; ---------------------------------
+   00D8                     658 ___UpdateScore_start:
+   00D8                     659 _UpdateScore:
+                            660 	
+                            661 ;	main.c 56
+                            662 ; genIpush
+   00D8 21 F9 00            663 	ld	hl,#__str_0 + 0
+   00DB E5                  664 	push	hl
+                            665 ; genCall
+   00DC CD 00 00            666 	call	_printf
+   00DF E8 02               667 	lda	sp,2(sp)
+                            668 ;	main.c 59
+                            669 ; genIpush
+                            670 ; AOP_HL for _enemyScore
+   00E1 21 2C 00            671 	ld	hl,#_enemyScore + 0
+   00E4 2A                  672 	ld	a,(hl+)
+   00E5 66                  673 	ld	h,(hl)
+   00E6 6F                  674 	ld	l,a
+   00E7 E5                  675 	push	hl
+                            676 ; genIpush
+                            677 ; AOP_HL for _playerScore
+   00E8 21 2A 00            678 	ld	hl,#_playerScore + 0
+   00EB 2A                  679 	ld	a,(hl+)
+   00EC 66                  680 	ld	h,(hl)
+   00ED 6F                  681 	ld	l,a
+   00EE E5                  682 	push	hl
+                            683 ; genIpush
+   00EF 21 0D 01            684 	ld	hl,#__str_1 + 0
+   00F2 E5                  685 	push	hl
+                            686 ; genCall
+   00F3 CD 00 00            687 	call	_printf
+   00F6 E8 06               688 	lda	sp,6(sp)
+                            689 ; genLabel
+   00F8                     690 00101$:
+                            691 ; genEndFunction
+                            692 	
+   00F8 C9                  693 	ret
+   00F9                     694 ___UpdateScore_end:
+   00F9                     695 __str_0:
+   00F9 20                  696 	.ascii " "
+   00FA 0A                  697 	.db 0x0A
+   00FB 0A                  698 	.db 0x0A
+   00FC 0A                  699 	.db 0x0A
+   00FD 0A                  700 	.db 0x0A
+   00FE 0A                  701 	.db 0x0A
+   00FF 0A                  702 	.db 0x0A
+   0100 0A                  703 	.db 0x0A
+   0101 0A                  704 	.db 0x0A
+   0102 0A                  705 	.db 0x0A
+   0103 0A                  706 	.db 0x0A
+   0104 0A                  707 	.db 0x0A
+   0105 0A                  708 	.db 0x0A
+   0106 0A                  709 	.db 0x0A
+   0107 0A                  710 	.db 0x0A
+   0108 0A                  711 	.db 0x0A
+   0109 0A                  712 	.db 0x0A
+   010A 0A                  713 	.db 0x0A
+   010B 0A                  714 	.db 0x0A
+   010C 00                  715 	.db 0x00
+   010D                     716 __str_1:
+   010D 20 20 20 20 20 25   717 	.ascii "     %u       %u"
+        75 20 20 20 20 20
+        20 20 25 75
+   011D 00                  718 	.db 0x00
+                            719 ;	main.c 63
+                            720 ; genLabel
+                            721 ; genFunction
+                            722 ;	---------------------------------
+                            723 ; Function RestartGame
+                            724 ; ---------------------------------
+   011E                     725 ___RestartGame_start:
+   011E                     726 _RestartGame:
+                            727 	
+                            728 ;	main.c 64
+                            729 ; genAssign
+                            730 ; AOP_HL for _ballPositionX
+   011E 21 20 00            731 	ld	hl,#_ballPositionX + 0
+   0121 36 A0               732 	ld	(hl),#0xA0
+   0123 23                  733 	inc	hl
+   0124 36 02               734 	ld	(hl),#0x02
+                            735 ;	main.c 65
+                            736 ; genAssign
+                            737 ; AOP_HL for _ballPositionY
+   0126 21 22 00            738 	ld	hl,#_ballPositionY + 0
+   0129 36 60               739 	ld	(hl),#0x60
+   012B 23                  740 	inc	hl
+   012C 36 02               741 	ld	(hl),#0x02
+                            742 ;	main.c 66
+                            743 ; genCast
+                            744 ; AOP_STK for 
+                            745 ; AOP_HL for _ballDirectionX
+   012E F8 02               746 	lda	hl,2(sp)
+   0130 7E                  747 	ld	a,(hl)
+   0131 21 24 00            748 	ld	hl,#_ballDirectionX + 0
+   0134 77                  749 	ld	(hl),a
+                            750 ;	main.c 67
+                            751 ; genAssign
+                            752 ; AOP_HL for _ballDirectionY
+   0135 21 25 00            753 	ld	hl,#_ballDirectionY + 0
+   0138 36 00               754 	ld	(hl),#0x00
+                            755 ;	main.c 68
+                            756 ; genAssign
+                            757 ; AOP_HL for _paddle
+   013A 21 26 00            758 	ld	hl,#_paddle + 0
+   013D 36 48               759 	ld	(hl),#0x48
+   013F 23                  760 	inc	hl
+   0140 36 00               761 	ld	(hl),#0x00
+                            762 ;	main.c 69
+                            763 ; genAssign
+                            764 ; AOP_HL for _enemyPaddle
+   0142 21 28 00            765 	ld	hl,#_enemyPaddle + 0
+   0145 36 48               766 	ld	(hl),#0x48
+   0147 23                  767 	inc	hl
+   0148 36 00               768 	ld	(hl),#0x00
+                            769 ;	main.c 70
+                            770 ; genCall
+   014A CD 00 00            771 	call	_Render
+                            772 ;	main.c 71
+                            773 ; genCall
+   014D CD D8 00            774 	call	_UpdateScore
+                            775 ;	main.c 72
+                            776 ; genIpush
+   0150 21 D0 07            777 	ld	hl,#0x07D0
+   0153 E5                  778 	push	hl
+                            779 ; genCall
+   0154 CD 00 00            780 	call	_delay
+   0157 E8 02               781 	lda	sp,2(sp)
+                            782 ; genLabel
+   0159                     783 00101$:
+                            784 ; genEndFunction
+                            785 	
+   0159 C9                  786 	ret
+   015A                     787 ___RestartGame_end:
+                            788 ;	main.c 75
+                            789 ; genLabel
+                            790 ; genFunction
+                            791 ;	---------------------------------
+                            792 ; Function main
+                            793 ; ---------------------------------
+   015A                     794 ___main_start:
+   015A                     795 _main:
+   015A C5                  796 	push	bc
+   015B E8 F4               797 	lda	sp,-12(sp)
+                            798 ;	main.c 81
+                            799 ; genCall
+   015D CD 00 00            800 	call	_font_init
+                            801 ;	main.c 82
+                            802 ; genIpush
+   0160 21 00 00            803 	ld	hl,#_font_ibm + 0
+   0163 E5                  804 	push	hl
+                            805 ; genCall
+   0164 CD 00 00            806 	call	_font_load
+   0167 E8 02               807 	lda	sp,2(sp)
+                            808 ;	main.c 85
+                            809 ; genIpush
+   0169 21 2B 06            810 	ld	hl,#__str_2 + 0
+   016C E5                  811 	push	hl
+                            812 ; genCall
+   016D CD 00 00            813 	call	_printf
+   0170 E8 02               814 	lda	sp,2(sp)
+                            815 ;	main.c 86
+                            816 ; genIpush
+   0172 21 33 06            817 	ld	hl,#__str_3 + 0
+   0175 E5                  818 	push	hl
+                            819 ; genCall
+   0176 CD 00 00            820 	call	_printf
+   0179 E8 02               821 	lda	sp,2(sp)
+                            822 ;	main.c 89
+                            823 ; genIpush
+   017B 21 D0 07            824 	ld	hl,#0x07D0
+   017E E5                  825 	push	hl
+                            826 ; genCall
+   017F CD 00 00            827 	call	_delay
+   0182 E8 02               828 	lda	sp,2(sp)
+                            829 ;	main.c 92
+                            830 ; genIpush
+   0184 21 00 00            831 	ld	hl,#_Sprites + 0
+   0187 E5                  832 	push	hl
+                            833 ; genIpush
+   0188 3E 02               834 	ld	a,#0x02
+   018A F5                  835 	push	af
+   018B 33                  836 	inc	sp
+                            837 ; genIpush
+   018C 3E 00               838 	ld	a,#0x00
+   018E F5                  839 	push	af
+   018F 33                  840 	inc	sp
+                            841 ; genCall
+   0190 CD 00 00            842 	call	_set_sprite_data
+   0193 E8 04               843 	lda	sp,4(sp)
+                            844 ;	main.c 95
+                            845 ; genAssign
+                            846 ; AOP_HL for _BALL_SPRITE
+   0195 21 D1 00            847 	ld	hl,#_BALL_SPRITE + 0
+   0198 4E                  848 	ld	c,(hl)
+                            849 ; genAssign
+                            850 ; AOP_HL for _BALL
+                            851 ; AOP_STK for _main_sloc0_1_0
+   0199 21 D3 00            852 	ld	hl,#_BALL + 0
+   019C 7E                  853 	ld	a,(hl)
+   019D F8 0B               854 	lda	hl,11(sp)
+   019F 77                  855 	ld	(hl),a
+                            856 ; genIpush
+   01A0 79                  857 	ld	a,c
+   01A1 F5                  858 	push	af
+   01A2 33                  859 	inc	sp
+                            860 ; genIpush
+                            861 ; AOP_STK for _main_sloc0_1_0
+   01A3 7E                  862 	ld	a,(hl)
+   01A4 F5                  863 	push	af
+   01A5 33                  864 	inc	sp
+                            865 ; genCall
+   01A6 CD 00 00            866 	call	_set_sprite_tile
+   01A9 E8 02               867 	lda	sp,2(sp)
+                            868 ;	main.c 99
+                            869 ; genAssign
+                            870 ; AOP_HL for _PADDLE_SPRITE
+   01AB 21 D2 00            871 	ld	hl,#_PADDLE_SPRITE + 0
+   01AE 4E                  872 	ld	c,(hl)
+                            873 ; genAssign
+                            874 ; AOP_HL for _PADDLE_TOP
+                            875 ; AOP_STK for _main_sloc1_1_0
+   01AF 21 D4 00            876 	ld	hl,#_PADDLE_TOP + 0
+   01B2 7E                  877 	ld	a,(hl)
+   01B3 F8 0A               878 	lda	hl,10(sp)
+   01B5 77                  879 	ld	(hl),a
+                            880 ; genIpush
+   01B6 79                  881 	ld	a,c
+   01B7 F5                  882 	push	af
+   01B8 33                  883 	inc	sp
+                            884 ; genIpush
+                            885 ; AOP_STK for _main_sloc1_1_0
+   01B9 7E                  886 	ld	a,(hl)
+   01BA F5                  887 	push	af
+   01BB 33                  888 	inc	sp
+                            889 ; genCall
+   01BC CD 00 00            890 	call	_set_sprite_tile
+   01BF E8 02               891 	lda	sp,2(sp)
+                            892 ;	main.c 100
+                            893 ; genAssign
+                            894 ; AOP_HL for _PADDLE_BOTTON
+                            895 ; AOP_STK for _main_sloc2_1_0
+   01C1 21 D5 00            896 	ld	hl,#_PADDLE_BOTTON + 0
+   01C4 7E                  897 	ld	a,(hl)
+   01C5 F8 09               898 	lda	hl,9(sp)
+   01C7 77                  899 	ld	(hl),a
+                            900 ; genIpush
+   01C8 79                  901 	ld	a,c
+   01C9 F5                  902 	push	af
+   01CA 33                  903 	inc	sp
+                            904 ; genIpush
+                            905 ; AOP_STK for _main_sloc2_1_0
+   01CB 7E                  906 	ld	a,(hl)
+   01CC F5                  907 	push	af
+   01CD 33                  908 	inc	sp
+                            909 ; genCall
+   01CE CD 00 00            910 	call	_set_sprite_tile
+   01D1 E8 02               911 	lda	sp,2(sp)
+                            912 ;	main.c 103
+                            913 ; genAssign
+                            914 ; AOP_HL for _ENEMY_PADDLE_TOP
+                            915 ; AOP_STK for _main_sloc3_1_0
+   01D3 21 D6 00            916 	ld	hl,#_ENEMY_PADDLE_TOP + 0
+   01D6 7E                  917 	ld	a,(hl)
+   01D7 F8 08               918 	lda	hl,8(sp)
+   01D9 77                  919 	ld	(hl),a
+                            920 ; genIpush
+   01DA 79                  921 	ld	a,c
+   01DB F5                  922 	push	af
+   01DC 33                  923 	inc	sp
+                            924 ; genIpush
+                            925 ; AOP_STK for _main_sloc3_1_0
+   01DD 7E                  926 	ld	a,(hl)
+   01DE F5                  927 	push	af
+   01DF 33                  928 	inc	sp
+                            929 ; genCall
+   01E0 CD 00 00            930 	call	_set_sprite_tile
+   01E3 E8 02               931 	lda	sp,2(sp)
+                            932 ;	main.c 104
+                            933 ; genAssign
+                            934 ; AOP_HL for _ENEMY_PADDLE_BOTTON
+                            935 ; AOP_STK for _main_sloc4_1_0
+   01E5 21 D7 00            936 	ld	hl,#_ENEMY_PADDLE_BOTTON + 0
+   01E8 7E                  937 	ld	a,(hl)
+   01E9 F8 07               938 	lda	hl,7(sp)
+   01EB 77                  939 	ld	(hl),a
+                            940 ; genIpush
+   01EC 79                  941 	ld	a,c
+   01ED F5                  942 	push	af
+   01EE 33                  943 	inc	sp
+                            944 ; genIpush
+                            945 ; AOP_STK for _main_sloc4_1_0
+   01EF 7E                  946 	ld	a,(hl)
+   01F0 F5                  947 	push	af
+   01F1 33                  948 	inc	sp
+                            949 ; genCall
+   01F2 CD 00 00            950 	call	_set_sprite_tile
+   01F5 E8 02               951 	lda	sp,2(sp)
+                            952 ;	main.c 108
+                            953 ; genRightShift
+                            954 ; AOP_HL for _ballPositionY
+                            955 ; shift right 	result 2, left 2
+   01F7 21 22 00            956 	ld	hl,#_ballPositionY + 0
+   01FA 4E                  957 	ld	c,(hl)
+   01FB 23                  958 	inc	hl
+   01FC 46                  959 	ld	b,(hl)
+   01FD 3E 04               960 	ld	a,#0x03+1
+   01FF 18 05               961 	jr	00160$
+   0201                     962 00159$:
+   0201 B7                  963 	or	a,a
+   0202 CB 18               964 	rr	b
+   0204 CB 19               965 	rr	c
+   0206                     966 00160$:
+   0206 3D                  967 	dec	a
+   0207 20 F8               968 	jr	nz,00159$
+                            969 ; genCast
+                            970 ; AOP_STK for _main_sloc5_1_0
+   0209 F8 06               971 	lda	hl,6(sp)
+   020B 71                  972 	ld	(hl),c
+                            973 ; genRightShift
+                            974 ; AOP_HL for _ballPositionX
+                            975 ; AOP_STK for _main_sloc6_1_0
+                            976 ; shift right 	result 2, left 2
+   020C 21 20 00            977 	ld	hl,#_ballPositionX + 0
+   020F 7E                  978 	ld	a,(hl)
+   0210 F8 04               979 	lda	hl,4(sp)
+   0212 77                  980 	ld	(hl),a
+   0213 21 21 00            981 	ld	hl,#_ballPositionX + 0 + 1
+   0216 7E                  982 	ld	a,(hl)
+   0217 F8 05               983 	lda	hl,5(sp)
+   0219 77                  984 	ld	(hl),a
+   021A 3E 04               985 	ld	a,#0x03+1
+   021C 18 08               986 	jr	00162$
+   021E                     987 00161$:
+   021E B7                  988 	or	a,a
+   021F F8 05               989 	lda	hl,5(sp)
+   0221 CB 1E               990 	rr	(hl)
+   0223 2B                  991 	dec	hl
+   0224 CB 1E               992 	rr	(hl)
+   0226                     993 00162$:
+   0226 3D                  994 	dec	a
+   0227 20 F5               995 	jr	nz,00161$
+                            996 ; genCast
+                            997 ; AOP_STK for _main_sloc6_1_0
+   0229 F8 04               998 	lda	hl,4(sp)
+   022B 4E                  999 	ld	c,(hl)
+                           1000 ; genIpush
+                           1001 ; AOP_STK for _main_sloc5_1_0
+   022C 23                 1002 	inc	hl
+   022D 23                 1003 	inc	hl
+   022E 7E                 1004 	ld	a,(hl)
+   022F F5                 1005 	push	af
+   0230 33                 1006 	inc	sp
+                           1007 ; genIpush
+   0231 79                 1008 	ld	a,c
+   0232 F5                 1009 	push	af
+   0233 33                 1010 	inc	sp
+                           1011 ; genIpush
+                           1012 ; AOP_STK for _main_sloc0_1_0
+   0234 F8 0D              1013 	lda	hl,13(sp)
+   0236 7E                 1014 	ld	a,(hl)
+   0237 F5                 1015 	push	af
+   0238 33                 1016 	inc	sp
+                           1017 ; genCall
+   0239 CD 00 00           1018 	call	_move_sprite
+   023C E8 03              1019 	lda	sp,3(sp)
+                           1020 ;	main.c 109
+                           1021 ; genCast
+                           1022 ; AOP_HL for _paddle
+   023E 21 26 00           1023 	ld	hl,#_paddle + 0
+   0241 4E                 1024 	ld	c,(hl)
+                           1025 ; genIpush
+   0242 79                 1026 	ld	a,c
+   0243 F5                 1027 	push	af
+   0244 33                 1028 	inc	sp
+                           1029 ; genIpush
+   0245 3E 08              1030 	ld	a,#0x08
+   0247 F5                 1031 	push	af
+   0248 33                 1032 	inc	sp
+                           1033 ; genIpush
+                           1034 ; AOP_STK for _main_sloc1_1_0
+   0249 F8 0C              1035 	lda	hl,12(sp)
+   024B 7E                 1036 	ld	a,(hl)
+   024C F5                 1037 	push	af
+   024D 33                 1038 	inc	sp
+                           1039 ; genCall
+   024E CD 00 00           1040 	call	_move_sprite
+   0251 E8 03              1041 	lda	sp,3(sp)
+                           1042 ;	main.c 110
+                           1043 ; genPlus
+                           1044 ; AOP_HL for _paddle
+                           1045 ; AOP_STK for _main_sloc6_1_0
+                           1046 ; genPlusIncr
+                           1047 ;	genPlusIncr failed
+   0253 21 26 00           1048 	ld	hl,#_paddle + 0
+   0256 5E                 1049 	ld	e,(hl)
+   0257 23                 1050 	inc	hl
+   0258 56                 1051 	ld	d,(hl)
+   0259 21 08 00           1052 	ld	hl,#0x0008
+   025C 19                 1053 	add	hl,de
+   025D 7D                 1054 	ld	a,l
+   025E 54                 1055 	ld	d,h
+   025F F8 04              1056 	lda	hl,4(sp)
+   0261 22                 1057 	ld	(hl+),a
+   0262 72                 1058 	ld	(hl),d
+                           1059 ; genCast
+                           1060 ; AOP_STK for _main_sloc6_1_0
+   0263 2B                 1061 	dec	hl
+   0264 4E                 1062 	ld	c,(hl)
+                           1063 ; genIpush
+   0265 79                 1064 	ld	a,c
+   0266 F5                 1065 	push	af
+   0267 33                 1066 	inc	sp
+                           1067 ; genIpush
+   0268 3E 08              1068 	ld	a,#0x08
+   026A F5                 1069 	push	af
+   026B 33                 1070 	inc	sp
+                           1071 ; genIpush
+                           1072 ; AOP_STK for _main_sloc2_1_0
+   026C F8 0B              1073 	lda	hl,11(sp)
+   026E 7E                 1074 	ld	a,(hl)
+   026F F5                 1075 	push	af
+   0270 33                 1076 	inc	sp
+                           1077 ; genCall
+   0271 CD 00 00           1078 	call	_move_sprite
+   0274 E8 03              1079 	lda	sp,3(sp)
+                           1080 ;	main.c 111
+                           1081 ; genCast
+                           1082 ; AOP_HL for _enemyPaddle
+   0276 21 28 00           1083 	ld	hl,#_enemyPaddle + 0
+   0279 4E                 1084 	ld	c,(hl)
+                           1085 ; genIpush
+   027A 79                 1086 	ld	a,c
+   027B F5                 1087 	push	af
+   027C 33                 1088 	inc	sp
+                           1089 ; genIpush
+   027D 3E A0              1090 	ld	a,#0xA0
+   027F F5                 1091 	push	af
+   0280 33                 1092 	inc	sp
+                           1093 ; genIpush
+                           1094 ; AOP_STK for _main_sloc3_1_0
+   0281 F8 0A              1095 	lda	hl,10(sp)
+   0283 7E                 1096 	ld	a,(hl)
+   0284 F5                 1097 	push	af
+   0285 33                 1098 	inc	sp
+                           1099 ; genCall
+   0286 CD 00 00           1100 	call	_move_sprite
+   0289 E8 03              1101 	lda	sp,3(sp)
+                           1102 ;	main.c 112
+                           1103 ; genPlus
+                           1104 ; AOP_HL for _enemyPaddle
+                           1105 ; AOP_STK for _main_sloc6_1_0
+                           1106 ; genPlusIncr
+                           1107 ;	genPlusIncr failed
+   028B 21 28 00           1108 	ld	hl,#_enemyPaddle + 0
+   028E 5E                 1109 	ld	e,(hl)
+   028F 23                 1110 	inc	hl
+   0290 56                 1111 	ld	d,(hl)
+   0291 21 08 00           1112 	ld	hl,#0x0008
+   0294 19                 1113 	add	hl,de
+   0295 7D                 1114 	ld	a,l
+   0296 54                 1115 	ld	d,h
+   0297 F8 04              1116 	lda	hl,4(sp)
+   0299 22                 1117 	ld	(hl+),a
+   029A 72                 1118 	ld	(hl),d
+                           1119 ; genCast
+                           1120 ; AOP_STK for _main_sloc6_1_0
+   029B 2B                 1121 	dec	hl
+   029C 4E                 1122 	ld	c,(hl)
+                           1123 ; genIpush
+   029D 79                 1124 	ld	a,c
+   029E F5                 1125 	push	af
+   029F 33                 1126 	inc	sp
+                           1127 ; genIpush
+   02A0 3E A0              1128 	ld	a,#0xA0
+   02A2 F5                 1129 	push	af
+   02A3 33                 1130 	inc	sp
+                           1131 ; genIpush
+                           1132 ; AOP_STK for _main_sloc4_1_0
+   02A4 F8 09              1133 	lda	hl,9(sp)
+   02A6 7E                 1134 	ld	a,(hl)
+   02A7 F5                 1135 	push	af
+   02A8 33                 1136 	inc	sp
+                           1137 ; genCall
+   02A9 CD 00 00           1138 	call	_move_sprite
+   02AC E8 03              1139 	lda	sp,3(sp)
+                           1140 ;	main.c 114
+                           1141 ; genOr
+                           1142 ; AOP_SFR for _LCDC_REG
+                           1143 ; Type res[4] = l[4]&r[1]
+                           1144 ; Size res[1] = l[1]&r[1]
+   02AE F0 00              1145 	ldh	a,(_LCDC_REG+0) ; x
+   02B0 F6 02              1146 	or	a,#0x02
+   02B2 E0 00              1147 	ldh	(_LCDC_REG+0),a
+                           1148 ;	main.c 115
+                           1149 ; genCall
+   02B4 CD D8 00           1150 	call	_UpdateScore
+                           1151 ;	main.c 117
+                           1152 ; genIpush
+   02B7 21 D0 07           1153 	ld	hl,#0x07D0
+   02BA E5                 1154 	push	hl
+                           1155 ; genCall
+   02BB CD 00 00           1156 	call	_delay
+   02BE E8 02              1157 	lda	sp,2(sp)
+                           1158 ;	main.c 121
+                           1159 ; genLabel
+   02C0                    1160 00136$:
+                           1161 ;	main.c 124
+                           1162 ; genLeftShift
+                           1163 ; AOP_HL for _ballDirectionX
+   02C0 21 24 00           1164 	ld	hl,#_ballDirectionX + 0
+   02C3 7E                 1165 	ld	a,(hl)
+   02C4 CB 17              1166 	rl	a
+   02C6 CB 17              1167 	rl	a
+   02C8 CB 17              1168 	rl	a
+   02CA E6 F8              1169 	and	a,#0xF8
+   02CC 4F                 1170 	ld	c,a
+                           1171 ; genCast
+                           1172 ; AOP_STK for _main_sloc6_1_0
+   02CD F8 04              1173 	lda	hl,4(sp)
+   02CF 71                 1174 	ld	(hl),c
+   02D0 79                 1175 	ld	a,c
+                           1176 ; genCast: sign extend untested.
+   02D1 17                 1177 	rla	
+   02D2 9F                 1178 	sbc	a,a
+   02D3 23                 1179 	inc	hl
+   02D4 77                 1180 	ld	(hl),a
+                           1181 ; genPlus
+                           1182 ; AOP_HL for _ballPositionX
+                           1183 ; AOP_STK for _main_sloc6_1_0
+                           1184 ;	genPlusIncr failed
+   02D5 21 20 00           1185 	ld	hl,#_ballPositionX + 0
+   02D8 5E                 1186 	ld	e,(hl)
+   02D9 23                 1187 	inc	hl
+   02DA 56                 1188 	ld	d,(hl)
+   02DB F8 04              1189 	lda	hl,4(sp)
+   02DD 2A                 1190 	ld	a,(hl+)
+   02DE 66                 1191 	ld	h,(hl)
+   02DF 6F                 1192 	ld	l,a
+   02E0 19                 1193 	add	hl,de
+   02E1 7D                 1194 	ld	a,l
+   02E2 54                 1195 	ld	d,h
+   02E3 21 20 00           1196 	ld	hl,#_ballPositionX + 0
+   02E6 22                 1197 	ld	(hl+),a
+   02E7 72                 1198 	ld	(hl),d
+                           1199 ;	main.c 125
+                           1200 ; genCast
+                           1201 ; AOP_HL for _ballDirectionY
+                           1202 ; AOP_STK for _main_sloc6_1_0
+   02E8 21 25 00           1203 	ld	hl,#_ballDirectionY + 0
+   02EB 7E                 1204 	ld	a,(hl)
+   02EC F8 04              1205 	lda	hl,4(sp)
+   02EE 77                 1206 	ld	(hl),a
+   02EF 21 25 00           1207 	ld	hl,#_ballDirectionY + 0
+   02F2 7E                 1208 	ld	a,(hl)
+                           1209 ; genCast: sign extend untested.
+   02F3 17                 1210 	rla	
+   02F4 9F                 1211 	sbc	a,a
+   02F5 F8 05              1212 	lda	hl,5(sp)
+   02F7 77                 1213 	ld	(hl),a
+                           1214 ; genPlus
+                           1215 ; AOP_HL for _ballPositionY
+                           1216 ; AOP_STK for _main_sloc6_1_0
+                           1217 ;	genPlusIncr failed
+   02F8 21 22 00           1218 	ld	hl,#_ballPositionY + 0
+   02FB 5E                 1219 	ld	e,(hl)
+   02FC 23                 1220 	inc	hl
+   02FD 56                 1221 	ld	d,(hl)
+   02FE F8 04              1222 	lda	hl,4(sp)
+   0300 2A                 1223 	ld	a,(hl+)
+   0301 66                 1224 	ld	h,(hl)
+   0302 6F                 1225 	ld	l,a
+   0303 19                 1226 	add	hl,de
+   0304 7D                 1227 	ld	a,l
+   0305 54                 1228 	ld	d,h
+   0306 21 22 00           1229 	ld	hl,#_ballPositionY + 0
+   0309 22                 1230 	ld	(hl+),a
+   030A 72                 1231 	ld	(hl),d
+                           1232 ;	main.c 129
+                           1233 ; genRightShift
+                           1234 ; AOP_HL for _ballPositionX
+                           1235 ; AOP_STK for _main_sloc6_1_0
+                           1236 ; shift right 	result 2, left 2
+   030B 21 20 00           1237 	ld	hl,#_ballPositionX + 0
+   030E 7E                 1238 	ld	a,(hl)
+   030F F8 04              1239 	lda	hl,4(sp)
+   0311 77                 1240 	ld	(hl),a
+   0312 21 21 00           1241 	ld	hl,#_ballPositionX + 0 + 1
+   0315 7E                 1242 	ld	a,(hl)
+   0316 F8 05              1243 	lda	hl,5(sp)
+   0318 77                 1244 	ld	(hl),a
+   0319 3E 04              1245 	ld	a,#0x03+1
+   031B 18 08              1246 	jr	00164$
+   031D                    1247 00163$:
+   031D B7                 1248 	or	a,a
+   031E F8 05              1249 	lda	hl,5(sp)
+   0320 CB 1E              1250 	rr	(hl)
+   0322 2B                 1251 	dec	hl
+   0323 CB 1E              1252 	rr	(hl)
+   0325                    1253 00164$:
+   0325 3D                 1254 	dec	a
+   0326 20 F5              1255 	jr	nz,00163$
+                           1256 ; genCmpEq
+                           1257 ; AOP_STK for _main_sloc6_1_0
+   0328 F8 04              1258 	lda	hl,4(sp)
+   032A 7E                 1259 	ld	a,(hl) ; 2
+   032B FE 0C              1260 	cp	a,#0x0C
+   032D C2 38 03           1261 	jp	nz,00165$
+   0330 23                 1262 	inc	hl
+   0331 7E                 1263 	ld	a,(hl) ; 2
+                           1264 ; Rule 3
+   0332 B7                 1265 	or	a,a
+   0333 C2 38 03           1266 	jp	nz,00165$
+   0336 18 03              1267 	jr	00166$
+   0338                    1268 00165$:
+   0338 C3 D4 03           1269 	jp	00105$
+   033B                    1270 00166$:
+                           1271 ;	main.c 130
+                           1272 ; genRightShift
+                           1273 ; AOP_HL for _ballPositionY
+                           1274 ; AOP_STK for _main_sloc7_1_0
+                           1275 ; shift right 	result 2, left 2
+   033B 21 22 00           1276 	ld	hl,#_ballPositionY + 0
+   033E 7E                 1277 	ld	a,(hl)
+   033F F8 02              1278 	lda	hl,2(sp)
+   0341 77                 1279 	ld	(hl),a
+   0342 21 23 00           1280 	ld	hl,#_ballPositionY + 0 + 1
+   0345 7E                 1281 	ld	a,(hl)
+   0346 F8 03              1282 	lda	hl,3(sp)
+   0348 77                 1283 	ld	(hl),a
+   0349 3E 04              1284 	ld	a,#0x03+1
+   034B 18 08              1285 	jr	00168$
+   034D                    1286 00167$:
+   034D B7                 1287 	or	a,a
+   034E F8 03              1288 	lda	hl,3(sp)
+   0350 CB 1E              1289 	rr	(hl)
+   0352 2B                 1290 	dec	hl
+   0353 CB 1E              1291 	rr	(hl)
+   0355                    1292 00168$:
+   0355 3D                 1293 	dec	a
+   0356 20 F5              1294 	jr	nz,00167$
+                           1295 ; genMinus
+                           1296 ; AOP_HL for _paddle
+                           1297 ; AOP_STK for _main_sloc8_1_0
+   0358 21 26 00           1298 	ld	hl,#_paddle + 0
+   035B 5E                 1299 	ld	e,(hl)
+   035C 23                 1300 	inc	hl
+   035D 56                 1301 	ld	d,(hl)
+   035E 21 08 00           1302 	ld	hl,#0x0008
+   0361 7B                 1303 	ld	a,e
+   0362 95                 1304 	sub	a,l
+   0363 5F                 1305 	ld	e,a
+   0364 7A                 1306 	ld	a,d
+   0365 9C                 1307 	sbc	a,h
+   0366 F8 01              1308 	lda	hl,1(sp)
+   0368 77                 1309 	ld	(hl),a
+   0369 2B                 1310 	dec	hl
+   036A 73                 1311 	ld	(hl),e
+                           1312 ; genCmpLt
+                           1313 ; AOP_STK for _main_sloc7_1_0
+                           1314 ; AOP_STK for _main_sloc8_1_0
+   036B F8 03              1315 	lda	hl,3(sp)
+   036D 7E                 1316 	ld	a,(hl)
+   036E EE 80              1317 	xor	a,#0x80
+   0370 5F                 1318 	ld	e,a
+   0371 2B                 1319 	dec	hl
+   0372 2B                 1320 	dec	hl
+   0373 7E                 1321 	ld	a,(hl)
+   0374 EE 80              1322 	xor	a,#0x80
+   0376 57                 1323 	ld	d,a
+   0377 23                 1324 	inc	hl
+   0378 7E                 1325 	ld	a,(hl)
+   0379 2B                 1326 	dec	hl
+   037A 2B                 1327 	dec	hl
+   037B 9E                 1328 	sbc	a,(hl) ; 2
+   037C 7B                 1329 	ld	a,e
+   037D 9A                 1330 	sbc	a,d
+   037E DA D4 03           1331 	jp	c,00105$
+                           1332 ; genPlus
+                           1333 ; AOP_HL for _paddle
+                           1334 ; AOP_STK for _main_sloc8_1_0
+                           1335 ; genPlusIncr
+                           1336 ;	genPlusIncr failed
+   0381 21 26 00           1337 	ld	hl,#_paddle + 0
+   0384 5E                 1338 	ld	e,(hl)
+   0385 23                 1339 	inc	hl
+   0386 56                 1340 	ld	d,(hl)
+   0387 21 10 00           1341 	ld	hl,#0x0010
+   038A 19                 1342 	add	hl,de
+   038B 7D                 1343 	ld	a,l
+   038C 54                 1344 	ld	d,h
+   038D F8 00              1345 	lda	hl,0(sp)
+   038F 22                 1346 	ld	(hl+),a
+   0390 72                 1347 	ld	(hl),d
+                           1348 ; genCmpGt
+                           1349 ; AOP_STK for _main_sloc7_1_0
+                           1350 ; AOP_STK for _main_sloc8_1_0
+   0391 7E                 1351 	ld	a,(hl)
+   0392 EE 80              1352 	xor	a,#0x80
+   0394 5F                 1353 	ld	e,a
+   0395 23                 1354 	inc	hl
+   0396 23                 1355 	inc	hl
+   0397 7E                 1356 	ld	a,(hl)
+   0398 EE 80              1357 	xor	a,#0x80
+   039A 57                 1358 	ld	d,a
+   039B F8 00              1359 	lda	hl,0(sp)
+   039D 2A                 1360 	ld	a,(hl+)
+   039E 23                 1361 	inc	hl
+   039F 9E                 1362 	sbc	a,(hl) ; 2
+   03A0 7B                 1363 	ld	a,e
+   03A1 9A                 1364 	sbc	a,d
+   03A2 DA D4 03           1365 	jp	c,00105$
+                           1366 ;	main.c 131
+                           1367 ; genAssign
+                           1368 ; AOP_HL for _ballDirectionX
+   03A5 21 24 00           1369 	ld	hl,#_ballDirectionX + 0
+   03A8 36 01              1370 	ld	(hl),#0x01
+                           1371 ;	main.c 133
+                           1372 ; genMinus
+                           1373 ; AOP_STK for _main_sloc7_1_0
+                           1374 ; AOP_HL for _paddle
+                           1375 ; AOP_STK for _main_sloc8_1_0
+   03AA F8 02              1376 	lda	hl,2(sp)
+   03AC 5E                 1377 	ld	e,(hl)
+   03AD 23                 1378 	inc	hl
+   03AE 56                 1379 	ld	d,(hl)
+   03AF 21 26 00           1380 	ld	hl,#_paddle + 0
+   03B2 2A                 1381 	ld	a,(hl+)
+   03B3 66                 1382 	ld	h,(hl)
+   03B4 6F                 1383 	ld	l,a
+   03B5 7B                 1384 	ld	a,e
+   03B6 95                 1385 	sub	a,l
+   03B7 5F                 1386 	ld	e,a
+   03B8 7A                 1387 	ld	a,d
+   03B9 9C                 1388 	sbc	a,h
+   03BA F8 01              1389 	lda	hl,1(sp)
+   03BC 77                 1390 	ld	(hl),a
+   03BD 2B                 1391 	dec	hl
+   03BE 73                 1392 	ld	(hl),e
+                           1393 ; genMinus
+                           1394 ; AOP_STK for _main_sloc8_1_0
+   03BF 5E                 1395 	ld	e,(hl)
+   03C0 23                 1396 	inc	hl
+   03C1 56                 1397 	ld	d,(hl)
+   03C2 21 04 00           1398 	ld	hl,#0x0004
+   03C5 7B                 1399 	ld	a,e
+   03C6 95                 1400 	sub	a,l
+   03C7 5F                 1401 	ld	e,a
+   03C8 7A                 1402 	ld	a,d
+   03C9 9C                 1403 	sbc	a,h
+   03CA F8 01              1404 	lda	hl,1(sp)
+   03CC 77                 1405 	ld	(hl),a
+   03CD 2B                 1406 	dec	hl
+   03CE 73                 1407 	ld	(hl),e
+                           1408 ; genCast
+                           1409 ; AOP_STK for _main_sloc8_1_0
+                           1410 ; AOP_HL for _ballDirectionY
+   03CF 7E                 1411 	ld	a,(hl)
+   03D0 21 25 00           1412 	ld	hl,#_ballDirectionY + 0
+   03D3 77                 1413 	ld	(hl),a
+                           1414 ; genLabel
+   03D4                    1415 00105$:
+                           1416 ;	main.c 138
+                           1417 ; genCmpEq
+                           1418 ; AOP_STK for _main_sloc6_1_0
+   03D4 F8 04              1419 	lda	hl,4(sp)
+   03D6 7E                 1420 	ld	a,(hl) ; 2
+   03D7 FE 9C              1421 	cp	a,#0x9C
+   03D9 C2 E4 03           1422 	jp	nz,00169$
+   03DC 23                 1423 	inc	hl
+   03DD 7E                 1424 	ld	a,(hl) ; 2
+                           1425 ; Rule 3
+   03DE B7                 1426 	or	a,a
+   03DF C2 E4 03           1427 	jp	nz,00169$
+   03E2 18 03              1428 	jr	00170$
+   03E4                    1429 00169$:
+   03E4 C3 7F 04           1430 	jp	00110$
+   03E7                    1431 00170$:
+                           1432 ;	main.c 139
+                           1433 ; genRightShift
+                           1434 ; AOP_HL for _ballPositionY
+                           1435 ; AOP_STK for _main_sloc8_1_0
+                           1436 ; shift right 	result 2, left 2
+   03E7 21 22 00           1437 	ld	hl,#_ballPositionY + 0
+   03EA 7E                 1438 	ld	a,(hl)
+   03EB F8 00              1439 	lda	hl,0(sp)
+   03ED 77                 1440 	ld	(hl),a
+   03EE 21 23 00           1441 	ld	hl,#_ballPositionY + 0 + 1
+   03F1 7E                 1442 	ld	a,(hl)
+   03F2 F8 01              1443 	lda	hl,1(sp)
+   03F4 77                 1444 	ld	(hl),a
+   03F5 3E 04              1445 	ld	a,#0x03+1
+   03F7 18 08              1446 	jr	00172$
+   03F9                    1447 00171$:
+   03F9 B7                 1448 	or	a,a
+   03FA F8 01              1449 	lda	hl,1(sp)
+   03FC CB 1E              1450 	rr	(hl)
+   03FE 2B                 1451 	dec	hl
+   03FF CB 1E              1452 	rr	(hl)
+   0401                    1453 00172$:
+   0401 3D                 1454 	dec	a
+   0402 20 F5              1455 	jr	nz,00171$
+                           1456 ; genMinus
+                           1457 ; AOP_HL for _enemyPaddle
+                           1458 ; AOP_STK for _main_sloc7_1_0
+   0404 21 28 00           1459 	ld	hl,#_enemyPaddle + 0
+   0407 5E                 1460 	ld	e,(hl)
+   0408 23                 1461 	inc	hl
+   0409 56                 1462 	ld	d,(hl)
+   040A 21 08 00           1463 	ld	hl,#0x0008
+   040D 7B                 1464 	ld	a,e
+   040E 95                 1465 	sub	a,l
+   040F 5F                 1466 	ld	e,a
+   0410 7A                 1467 	ld	a,d
+   0411 9C                 1468 	sbc	a,h
+   0412 F8 03              1469 	lda	hl,3(sp)
+   0414 77                 1470 	ld	(hl),a
+   0415 2B                 1471 	dec	hl
+   0416 73                 1472 	ld	(hl),e
+                           1473 ; genCmpLt
+                           1474 ; AOP_STK for _main_sloc8_1_0
+                           1475 ; AOP_STK for _main_sloc7_1_0
+   0417 2B                 1476 	dec	hl
+   0418 7E                 1477 	ld	a,(hl)
+   0419 EE 80              1478 	xor	a,#0x80
+   041B 5F                 1479 	ld	e,a
+   041C 23                 1480 	inc	hl
+   041D 23                 1481 	inc	hl
+   041E 7E                 1482 	ld	a,(hl)
+   041F EE 80              1483 	xor	a,#0x80
+   0421 57                 1484 	ld	d,a
+   0422 F8 00              1485 	lda	hl,0(sp)
+   0424 2A                 1486 	ld	a,(hl+)
+   0425 23                 1487 	inc	hl
+   0426 9E                 1488 	sbc	a,(hl) ; 2
+   0427 7B                 1489 	ld	a,e
+   0428 9A                 1490 	sbc	a,d
+   0429 DA 7F 04           1491 	jp	c,00110$
+                           1492 ; genPlus
+                           1493 ; AOP_HL for _enemyPaddle
+                           1494 ; AOP_STK for _main_sloc7_1_0
+                           1495 ; genPlusIncr
+                           1496 ;	genPlusIncr failed
+   042C 21 28 00           1497 	ld	hl,#_enemyPaddle + 0
+   042F 5E                 1498 	ld	e,(hl)
+   0430 23                 1499 	inc	hl
+   0431 56                 1500 	ld	d,(hl)
+   0432 21 10 00           1501 	ld	hl,#0x0010
+   0435 19                 1502 	add	hl,de
+   0436 7D                 1503 	ld	a,l
+   0437 54                 1504 	ld	d,h
+   0438 F8 02              1505 	lda	hl,2(sp)
+   043A 22                 1506 	ld	(hl+),a
+   043B 72                 1507 	ld	(hl),d
+                           1508 ; genCmpGt
+                           1509 ; AOP_STK for _main_sloc8_1_0
+                           1510 ; AOP_STK for _main_sloc7_1_0
+   043C 7E                 1511 	ld	a,(hl)
+   043D EE 80              1512 	xor	a,#0x80
+   043F 5F                 1513 	ld	e,a
+   0440 2B                 1514 	dec	hl
+   0441 2B                 1515 	dec	hl
+   0442 7E                 1516 	ld	a,(hl)
+   0443 EE 80              1517 	xor	a,#0x80
+   0445 57                 1518 	ld	d,a
+   0446 23                 1519 	inc	hl
+   0447 7E                 1520 	ld	a,(hl)
+   0448 2B                 1521 	dec	hl
+   0449 2B                 1522 	dec	hl
+   044A 9E                 1523 	sbc	a,(hl) ; 2
+   044B 7B                 1524 	ld	a,e
+   044C 9A                 1525 	sbc	a,d
+   044D DA 7F 04           1526 	jp	c,00110$
+                           1527 ;	main.c 140
+                           1528 ; genAssign
+                           1529 ; AOP_HL for _ballDirectionX
+   0450 21 24 00           1530 	ld	hl,#_ballDirectionX + 0
+   0453 36 FF              1531 	ld	(hl),#0xFF
+                           1532 ;	main.c 142
+                           1533 ; genMinus
+                           1534 ; AOP_STK for _main_sloc8_1_0
+                           1535 ; AOP_HL for _enemyPaddle
+   0455 F8 00              1536 	lda	hl,0(sp)
+   0457 5E                 1537 	ld	e,(hl)
+   0458 23                 1538 	inc	hl
+   0459 56                 1539 	ld	d,(hl)
+   045A 21 28 00           1540 	ld	hl,#_enemyPaddle + 0
+   045D 2A                 1541 	ld	a,(hl+)
+   045E 66                 1542 	ld	h,(hl)
+   045F 6F                 1543 	ld	l,a
+   0460 7B                 1544 	ld	a,e
+   0461 95                 1545 	sub	a,l
+   0462 5F                 1546 	ld	e,a
+   0463 7A                 1547 	ld	a,d
+   0464 9C                 1548 	sbc	a,h
+   0465 F8 01              1549 	lda	hl,1(sp)
+   0467 77                 1550 	ld	(hl),a
+   0468 2B                 1551 	dec	hl
+   0469 73                 1552 	ld	(hl),e
+                           1553 ; genMinus
+                           1554 ; AOP_STK for _main_sloc8_1_0
+   046A 5E                 1555 	ld	e,(hl)
+   046B 23                 1556 	inc	hl
+   046C 56                 1557 	ld	d,(hl)
+   046D 21 04 00           1558 	ld	hl,#0x0004
+   0470 7B                 1559 	ld	a,e
+   0471 95                 1560 	sub	a,l
+   0472 5F                 1561 	ld	e,a
+   0473 7A                 1562 	ld	a,d
+   0474 9C                 1563 	sbc	a,h
+   0475 F8 01              1564 	lda	hl,1(sp)
+   0477 77                 1565 	ld	(hl),a
+   0478 2B                 1566 	dec	hl
+   0479 73                 1567 	ld	(hl),e
+                           1568 ; genCast
+                           1569 ; AOP_STK for _main_sloc8_1_0
+                           1570 ; AOP_HL for _ballDirectionY
+   047A 7E                 1571 	ld	a,(hl)
+   047B 21 25 00           1572 	ld	hl,#_ballDirectionY + 0
+   047E 77                 1573 	ld	(hl),a
+                           1574 ; genLabel
+   047F                    1575 00110$:
+                           1576 ;	main.c 147
+                           1577 ; genCmpLt
+                           1578 ; AOP_STK for _main_sloc6_1_0
+   047F F8 04              1579 	lda	hl,4(sp)
+   0481 5E                 1580 	ld	e,(hl)
+   0482 23                 1581 	inc	hl
+   0483 7E                 1582 	ld	a,(hl)
+   0484 EE 80              1583 	xor	a,#0x80
+   0486 57                 1584 	ld	d,a
+   0487 21 F8 7F           1585 	ld	hl,#0x7FF8
+   048A 19                 1586 	add	hl,de
+   048B DA 9F 04           1587 	jp	c,00112$
+                           1588 ;	main.c 148
+                           1589 ; genPlus
+                           1590 ; AOP_HL for _enemyScore
+                           1591 ; genPlusIncr
+   048E 21 2C 00           1592 	ld	hl,#_enemyScore + 0
+   0491 34                 1593 	inc	(hl)
+   0492 20 02              1594 	jr	nz,00173$
+   0494 23                 1595 	inc	hl
+   0495 34                 1596 	inc	(hl)
+   0496                    1597 00173$:
+                           1598 ;	main.c 149
+                           1599 ; genIpush
+   0496 21 01 00           1600 	ld	hl,#0x0001
+   0499 E5                 1601 	push	hl
+                           1602 ; genCall
+   049A CD 1E 01           1603 	call	_RestartGame
+   049D E8 02              1604 	lda	sp,2(sp)
+                           1605 ; genLabel
+   049F                    1606 00112$:
+                           1607 ;	main.c 153
+                           1608 ; genCmpGt
+                           1609 ; AOP_STK for _main_sloc6_1_0
+   049F F8 04              1610 	lda	hl,4(sp)
+   04A1 5E                 1611 	ld	e,(hl)
+   04A2 23                 1612 	inc	hl
+   04A3 7E                 1613 	ld	a,(hl)
+   04A4 EE 80              1614 	xor	a,#0x80
+   04A6 57                 1615 	ld	d,a
+   04A7 21 5C 7F           1616 	ld	hl,#0x7F5C
+   04AA 19                 1617 	add	hl,de
+   04AB D2 BF 04           1618 	jp	nc,00114$
+                           1619 ;	main.c 154
+                           1620 ; genPlus
+                           1621 ; AOP_HL for _playerScore
+                           1622 ; genPlusIncr
+   04AE 21 2A 00           1623 	ld	hl,#_playerScore + 0
+   04B1 34                 1624 	inc	(hl)
+   04B2 20 02              1625 	jr	nz,00174$
+   04B4 23                 1626 	inc	hl
+   04B5 34                 1627 	inc	(hl)
+   04B6                    1628 00174$:
+                           1629 ;	main.c 155
+                           1630 ; genIpush
+   04B6 21 FF FF           1631 	ld	hl,#0xFFFFFFFF
+   04B9 E5                 1632 	push	hl
+                           1633 ; genCall
+   04BA CD 1E 01           1634 	call	_RestartGame
+   04BD E8 02              1635 	lda	sp,2(sp)
+                           1636 ; genLabel
+   04BF                    1637 00114$:
+                           1638 ;	main.c 159
+                           1639 ; genRightShift
+                           1640 ; AOP_HL for _ballPositionY
+                           1641 ; AOP_STK for _main_sloc8_1_0
+                           1642 ; shift right 	result 2, left 2
+   04BF 21 22 00           1643 	ld	hl,#_ballPositionY + 0
+   04C2 7E                 1644 	ld	a,(hl)
+   04C3 F8 00              1645 	lda	hl,0(sp)
+   04C5 77                 1646 	ld	(hl),a
+   04C6 21 23 00           1647 	ld	hl,#_ballPositionY + 0 + 1
+   04C9 7E                 1648 	ld	a,(hl)
+   04CA F8 01              1649 	lda	hl,1(sp)
+   04CC 77                 1650 	ld	(hl),a
+   04CD 3E 04              1651 	ld	a,#0x03+1
+   04CF 18 08              1652 	jr	00176$
+   04D1                    1653 00175$:
+   04D1 B7                 1654 	or	a,a
+   04D2 F8 01              1655 	lda	hl,1(sp)
+   04D4 CB 1E              1656 	rr	(hl)
+   04D6 2B                 1657 	dec	hl
+   04D7 CB 1E              1658 	rr	(hl)
+   04D9                    1659 00176$:
+   04D9 3D                 1660 	dec	a
+   04DA 20 F5              1661 	jr	nz,00175$
+                           1662 ; genCmpGt
+                           1663 ; AOP_STK for _main_sloc8_1_0
+   04DC F8 00              1664 	lda	hl,0(sp)
+   04DE 5E                 1665 	ld	e,(hl)
+   04DF 23                 1666 	inc	hl
+   04E0 7E                 1667 	ld	a,(hl)
+   04E1 EE 80              1668 	xor	a,#0x80
+   04E3 57                 1669 	ld	d,a
+   04E4 21 F0 7F           1670 	ld	hl,#0x7FF0
+   04E7 19                 1671 	add	hl,de
+   04E8 DA FE 04           1672 	jp	c,00116$
+                           1673 ;	main.c 160
+                           1674 ; genIpush
+   04EB 3E FF              1675 	ld	a,#0xFF
+   04ED F5                 1676 	push	af
+   04EE 33                 1677 	inc	sp
+                           1678 ; genIpush
+                           1679 ; AOP_HL for _ballDirectionY
+   04EF 21 25 00           1680 	ld	hl,#_ballDirectionY + 0
+   04F2 7E                 1681 	ld	a,(hl)
+   04F3 F5                 1682 	push	af
+   04F4 33                 1683 	inc	sp
+                           1684 ; genCall
+   04F5 CD 00 00           1685 	call	__mulschar
+                           1686 ; AOP_HL for _ballDirectionY
+   04F8 21 25 00           1687 	ld	hl,#_ballDirectionY + 0
+   04FB 73                 1688 	ld	(hl),e
+   04FC E8 02              1689 	lda	sp,2(sp)
+                           1690 ; genLabel
+   04FE                    1691 00116$:
+                           1692 ;	main.c 162
+                           1693 ; genCmpLt
+                           1694 ; AOP_STK for _main_sloc8_1_0
+   04FE F8 00              1695 	lda	hl,0(sp)
+   0500 5E                 1696 	ld	e,(hl)
+   0501 23                 1697 	inc	hl
+   0502 7E                 1698 	ld	a,(hl)
+   0503 EE 80              1699 	xor	a,#0x80
+   0505 57                 1700 	ld	d,a
+   0506 21 68 7F           1701 	ld	hl,#0x7F68
+   0509 19                 1702 	add	hl,de
+   050A D2 20 05           1703 	jp	nc,00118$
+                           1704 ;	main.c 163
+                           1705 ; genIpush
+   050D 3E FF              1706 	ld	a,#0xFF
+   050F F5                 1707 	push	af
+   0510 33                 1708 	inc	sp
+                           1709 ; genIpush
+                           1710 ; AOP_HL for _ballDirectionY
+   0511 21 25 00           1711 	ld	hl,#_ballDirectionY + 0
+   0514 7E                 1712 	ld	a,(hl)
+   0515 F5                 1713 	push	af
+   0516 33                 1714 	inc	sp
+                           1715 ; genCall
+   0517 CD 00 00           1716 	call	__mulschar
+                           1717 ; AOP_HL for _ballDirectionY
+   051A 21 25 00           1718 	ld	hl,#_ballDirectionY + 0
+   051D 73                 1719 	ld	(hl),e
+   051E E8 02              1720 	lda	sp,2(sp)
+                           1721 ; genLabel
+   0520                    1722 00118$:
+                           1723 ;	main.c 167
+                           1724 ; genCall
+   0520 CD 00 00           1725 	call	_joypad
+   0523 4B                 1726 	ld	c,e
+                           1727 ; genCmpEq
+   0524 79                 1728 	ld	a,c ; 2
+   0525 FE 04              1729 	cp	a,#0x04
+                           1730 ; Rule 5
+   0527 CA 33 05           1731 	jp	z,00119$
+   052A                    1732 00177$:
+                           1733 ; genCmpEq
+   052A 79                 1734 	ld	a,c ; 2
+   052B FE 08              1735 	cp	a,#0x08
+                           1736 ; Rule 5
+   052D CA 41 05           1737 	jp	z,00120$
+   0530                    1738 00178$:
+                           1739 ; genGoto
+   0530 C3 49 05           1740 	jp	00121$
+                           1741 ;	main.c 169
+                           1742 ; genLabel
+   0533                    1743 00119$:
+                           1744 ; genMinus
+                           1745 ; AOP_HL for _paddle
+   0533 21 26 00           1746 	ld	hl,#_paddle + 0
+   0536 7E                 1747 	ld	a,(hl)
+   0537 C6 FF              1748 	add	a,#0xFF
+   0539 22                 1749 	ld	(hl+),a
+   053A 7E                 1750 	ld	a,(hl)
+   053B CE FF              1751 	adc	a,#0xFF
+   053D 77                 1752 	ld	(hl),a
+                           1753 ;	main.c 170
+                           1754 ; genGoto
+   053E C3 49 05           1755 	jp	00121$
+                           1756 ;	main.c 172
+                           1757 ; genLabel
+   0541                    1758 00120$:
+                           1759 ; genPlus
+                           1760 ; AOP_HL for _paddle
+                           1761 ; genPlusIncr
+   0541 21 26 00           1762 	ld	hl,#_paddle + 0
+   0544 34                 1763 	inc	(hl)
+   0545 20 02              1764 	jr	nz,00179$
+   0547 23                 1765 	inc	hl
+   0548 34                 1766 	inc	(hl)
+   0549                    1767 00179$:
+                           1768 ;	main.c 174
+                           1769 ; genLabel
+   0549                    1770 00121$:
+                           1771 ;	main.c 179
+                           1772 ; genPlus
+                           1773 ; AOP_HL for _enemyPaddle
+                           1774 ; AOP_STK for _main_sloc8_1_0
+                           1775 ; genPlusIncr
+                           1776 ;	genPlusIncr failed
+   0549 21 28 00           1777 	ld	hl,#_enemyPaddle + 0
+   054C 5E                 1778 	ld	e,(hl)
+   054D 23                 1779 	inc	hl
+   054E 56                 1780 	ld	d,(hl)
+   054F 21 04 00           1781 	ld	hl,#0x0004
+   0552 19                 1782 	add	hl,de
+   0553 7D                 1783 	ld	a,l
+   0554 54                 1784 	ld	d,h
+   0555 F8 00              1785 	lda	hl,0(sp)
+   0557 22                 1786 	ld	(hl+),a
+   0558 72                 1787 	ld	(hl),d
+                           1788 ; genRightShift
+                           1789 ; AOP_HL for _ballPositionY
+                           1790 ; AOP_STK for _main_sloc7_1_0
+                           1791 ; shift right 	result 2, left 2
+   0559 21 22 00           1792 	ld	hl,#_ballPositionY + 0
+   055C 7E                 1793 	ld	a,(hl)
+   055D F8 02              1794 	lda	hl,2(sp)
+   055F 77                 1795 	ld	(hl),a
+   0560 21 23 00           1796 	ld	hl,#_ballPositionY + 0 + 1
+   0563 7E                 1797 	ld	a,(hl)
+   0564 F8 03              1798 	lda	hl,3(sp)
+   0566 77                 1799 	ld	(hl),a
+   0567 3E 04              1800 	ld	a,#0x03+1
+   0569 18 08              1801 	jr	00181$
+   056B                    1802 00180$:
+   056B B7                 1803 	or	a,a
+   056C F8 03              1804 	lda	hl,3(sp)
+   056E CB 1E              1805 	rr	(hl)
+   0570 2B                 1806 	dec	hl
+   0571 CB 1E              1807 	rr	(hl)
+   0573                    1808 00181$:
+   0573 3D                 1809 	dec	a
+   0574 20 F5              1810 	jr	nz,00180$
+                           1811 ; genCmpLt
+                           1812 ; AOP_STK for _main_sloc8_1_0
+                           1813 ; AOP_STK for _main_sloc7_1_0
+   0576 F8 01              1814 	lda	hl,1(sp)
+   0578 7E                 1815 	ld	a,(hl)
+   0579 EE 80              1816 	xor	a,#0x80
+   057B 5F                 1817 	ld	e,a
+   057C 23                 1818 	inc	hl
+   057D 23                 1819 	inc	hl
+   057E 7E                 1820 	ld	a,(hl)
+   057F EE 80              1821 	xor	a,#0x80
+   0581 57                 1822 	ld	d,a
+   0582 F8 00              1823 	lda	hl,0(sp)
+   0584 2A                 1824 	ld	a,(hl+)
+   0585 23                 1825 	inc	hl
+   0586 9E                 1826 	sbc	a,(hl) ; 2
+   0587 7B                 1827 	ld	a,e
+   0588 9A                 1828 	sbc	a,d
+   0589 D2 97 05           1829 	jp	nc,00125$
+                           1830 ;	main.c 180
+                           1831 ; genPlus
+                           1832 ; AOP_HL for _enemyPaddle
+                           1833 ; genPlusIncr
+   058C 21 28 00           1834 	ld	hl,#_enemyPaddle + 0
+   058F 34                 1835 	inc	(hl)
+   0590 20 02              1836 	jr	nz,00182$
+   0592 23                 1837 	inc	hl
+   0593 34                 1838 	inc	(hl)
+   0594                    1839 00182$:
+                           1840 ; genGoto
+   0594 C3 B8 05           1841 	jp	00126$
+                           1842 ; genLabel
+   0597                    1843 00125$:
+                           1844 ;	main.c 183
+                           1845 ; genCmpGt
+                           1846 ; AOP_STK for _main_sloc8_1_0
+                           1847 ; AOP_STK for _main_sloc7_1_0
+   0597 F8 03              1848 	lda	hl,3(sp)
+   0599 7E                 1849 	ld	a,(hl)
+   059A EE 80              1850 	xor	a,#0x80
+   059C 5F                 1851 	ld	e,a
+   059D 2B                 1852 	dec	hl
+   059E 2B                 1853 	dec	hl
+   059F 7E                 1854 	ld	a,(hl)
+   05A0 EE 80              1855 	xor	a,#0x80
+   05A2 57                 1856 	ld	d,a
+   05A3 23                 1857 	inc	hl
+   05A4 7E                 1858 	ld	a,(hl)
+   05A5 2B                 1859 	dec	hl
+   05A6 2B                 1860 	dec	hl
+   05A7 9E                 1861 	sbc	a,(hl) ; 2
+   05A8 7B                 1862 	ld	a,e
+   05A9 9A                 1863 	sbc	a,d
+   05AA D2 B8 05           1864 	jp	nc,00126$
+                           1865 ;	main.c 184
+                           1866 ; genMinus
+                           1867 ; AOP_HL for _enemyPaddle
+   05AD 21 28 00           1868 	ld	hl,#_enemyPaddle + 0
+   05B0 7E                 1869 	ld	a,(hl)
+   05B1 C6 FF              1870 	add	a,#0xFF
+   05B3 22                 1871 	ld	(hl+),a
+   05B4 7E                 1872 	ld	a,(hl)
+   05B5 CE FF              1873 	adc	a,#0xFF
+   05B7 77                 1874 	ld	(hl),a
+                           1875 ; genLabel
+   05B8                    1876 00126$:
+                           1877 ;	main.c 188
+                           1878 ; genCmpLt
+                           1879 ; AOP_HL for _paddle
+   05B8 21 26 00           1880 	ld	hl,#_paddle + 0
+   05BB 5E                 1881 	ld	e,(hl)
+   05BC 23                 1882 	inc	hl
+   05BD 7E                 1883 	ld	a,(hl)
+   05BE EE 80              1884 	xor	a,#0x80
+   05C0 57                 1885 	ld	d,a
+   05C1 21 E8 7F           1886 	ld	hl,#0x7FE8
+   05C4 19                 1887 	add	hl,de
+   05C5 DA D0 05           1888 	jp	c,00128$
+                           1889 ;	main.c 189
+                           1890 ; genAssign
+                           1891 ; AOP_HL for _paddle
+   05C8 21 26 00           1892 	ld	hl,#_paddle + 0
+   05CB 36 18              1893 	ld	(hl),#0x18
+   05CD 23                 1894 	inc	hl
+   05CE 36 00              1895 	ld	(hl),#0x00
+                           1896 ; genLabel
+   05D0                    1897 00128$:
+                           1898 ;	main.c 193
+                           1899 ; genCmpGt
+                           1900 ; AOP_HL for _paddle
+   05D0 21 26 00           1901 	ld	hl,#_paddle + 0
+   05D3 5E                 1902 	ld	e,(hl)
+   05D4 23                 1903 	inc	hl
+   05D5 7E                 1904 	ld	a,(hl)
+   05D6 EE 80              1905 	xor	a,#0x80
+   05D8 57                 1906 	ld	d,a
+   05D9 21 80 7F           1907 	ld	hl,#0x7F80
+   05DC 19                 1908 	add	hl,de
+   05DD D2 E8 05           1909 	jp	nc,00130$
+                           1910 ;	main.c 194
+                           1911 ; genAssign
+                           1912 ; AOP_HL for _paddle
+   05E0 21 26 00           1913 	ld	hl,#_paddle + 0
+   05E3 36 80              1914 	ld	(hl),#0x80
+   05E5 23                 1915 	inc	hl
+   05E6 36 00              1916 	ld	(hl),#0x00
+                           1917 ; genLabel
+   05E8                    1918 00130$:
+                           1919 ;	main.c 198
+                           1920 ; genCmpLt
+                           1921 ; AOP_HL for _enemyPaddle
+   05E8 21 28 00           1922 	ld	hl,#_enemyPaddle + 0
+   05EB 5E                 1923 	ld	e,(hl)
+   05EC 23                 1924 	inc	hl
+   05ED 7E                 1925 	ld	a,(hl)
+   05EE EE 80              1926 	xor	a,#0x80
+   05F0 57                 1927 	ld	d,a
+   05F1 21 E8 7F           1928 	ld	hl,#0x7FE8
+   05F4 19                 1929 	add	hl,de
+   05F5 DA 00 06           1930 	jp	c,00132$
+                           1931 ;	main.c 199
+                           1932 ; genAssign
+                           1933 ; AOP_HL for _enemyPaddle
+   05F8 21 28 00           1934 	ld	hl,#_enemyPaddle + 0
+   05FB 36 18              1935 	ld	(hl),#0x18
+   05FD 23                 1936 	inc	hl
+   05FE 36 00              1937 	ld	(hl),#0x00
+                           1938 ; genLabel
+   0600                    1939 00132$:
+                           1940 ;	main.c 203
+                           1941 ; genCmpGt
+                           1942 ; AOP_HL for _enemyPaddle
+   0600 21 28 00           1943 	ld	hl,#_enemyPaddle + 0
+   0603 5E                 1944 	ld	e,(hl)
+   0604 23                 1945 	inc	hl
+   0605 7E                 1946 	ld	a,(hl)
+   0606 EE 80              1947 	xor	a,#0x80
+   0608 57                 1948 	ld	d,a
+   0609 21 80 7F           1949 	ld	hl,#0x7F80
+   060C 19                 1950 	add	hl,de
+   060D D2 18 06           1951 	jp	nc,00134$
+                           1952 ;	main.c 204
+                           1953 ; genAssign
+                           1954 ; AOP_HL for _enemyPaddle
+   0610 21 28 00           1955 	ld	hl,#_enemyPaddle + 0
+   0613 36 80              1956 	ld	(hl),#0x80
+   0615 23                 1957 	inc	hl
+   0616 36 00              1958 	ld	(hl),#0x00
+                           1959 ; genLabel
+   0618                    1960 00134$:
+                           1961 ;	main.c 208
+                           1962 ; genCall
+   0618 CD 00 00           1963 	call	_Render
+                           1964 ;	main.c 209
+                           1965 ; genIpush
+   061B 21 10 00           1966 	ld	hl,#0x0010
+   061E E5                 1967 	push	hl
+                           1968 ; genCall
+   061F CD 00 00           1969 	call	_delay
+   0622 E8 02              1970 	lda	sp,2(sp)
+                           1971 ; genGoto
+   0624 C3 C0 02           1972 	jp	00136$
+                           1973 ; genLabel
+   0627                    1974 00138$:
+                           1975 ; genEndFunction
+   0627 E8 0C              1976 	lda	sp,12(sp)
+   0629 C1                 1977 	pop	bc
+   062A C9                 1978 	ret
+   062B                    1979 ___main_end:
+   062B                    1980 __str_2:
+   062B 20                 1981 	.ascii " "
+   062C 0A                 1982 	.db 0x0A
+   062D 0A                 1983 	.db 0x0A
+   062E 0A                 1984 	.db 0x0A
+   062F 0A                 1985 	.db 0x0A
+   0630 0A                 1986 	.db 0x0A
+   0631 0A                 1987 	.db 0x0A
+   0632 00                 1988 	.db 0x00
+   0633                    1989 __str_3:
+   0633 20 20 20 20 20 20  1990 	.ascii "        Pong"
+        20 20 50 6F 6E 67
+   063F 0A                 1991 	.db 0x0A
+   0640 0A                 1992 	.db 0x0A
+   0641 20 20 20 20 20 20  1993 	.ascii "         by "
+        20 20 20 62 79 20
+   064D 0A                 1994 	.db 0x0A
+   064E 0A                 1995 	.db 0x0A
+   064F 20 20 20 46 65 6C  1996 	.ascii "   Felipe Resende"
+        69 70 65 20 52 65
+        73 65 6E 64 65
+   0660 00                 1997 	.db 0x00
+                           1998 	.area _CODE
+ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
+
+Symbol Table
+
+  0 _BALL                              00D3 GR
+  0 _BALL_SPRITE                       00D1 GR
+    _BCPD_REG                          **** GX
+    _BCPS_REG                          **** GX
+    _BGP_REG                           **** GX
+    _DIV_REG                           **** GX
+    _DMA_REG                           **** GX
+  0 _ENEMY_PADDLE_BOTTON               00D7 GR
+  0 _ENEMY_PADDLE_TOP                  00D6 GR
+    _HDMA1_REG                         **** GX
+    _HDMA2_REG                         **** GX
+    _HDMA3_REG                         **** GX
+    _HDMA4_REG                         **** GX
+    _HDMA5_REG                         **** GX
+    _IE_REG                            **** GX
+    _IF_REG                            **** GX
+    _KEY1_REG                          **** GX
+    _LCDC_REG                          **** GX
+    _LYC_REG                           **** GX
+    _LY_REG                            **** GX
+    _NR10_REG                          **** GX
+    _NR11_REG                          **** GX
+    _NR12_REG                          **** GX
+    _NR13_REG                          **** GX
+    _NR14_REG                          **** GX
+    _NR21_REG                          **** GX
+    _NR22_REG                          **** GX
+    _NR23_REG                          **** GX
+    _NR24_REG                          **** GX
+    _NR30_REG                          **** GX
+    _NR31_REG                          **** GX
+    _NR32_REG                          **** GX
+    _NR33_REG                          **** GX
+    _NR34_REG                          **** GX
+    _NR41_REG                          **** GX
+    _NR42_REG                          **** GX
+    _NR43_REG                          **** GX
+    _NR44_REG                          **** GX
+    _NR50_REG                          **** GX
+    _NR51_REG                          **** GX
+    _NR52_REG                          **** GX
+    _OBP0_REG                          **** GX
+    _OBP1_REG                          **** GX
+    _OCPD_REG                          **** GX
+    _OCPS_REG                          **** GX
+    _P1_REG                            **** GX
+  0 _PADDLE_BOTTON                     00D5 GR
+  0 _PADDLE_SPRITE                     00D2 GR
+  0 _PADDLE_TOP                        00D4 GR
+    _RP_REG                            **** GX
+  0 _Render                            0000 GR
+  0 _RestartGame                       011E GR
+    _SB_REG                            **** GX
+    _SCX_REG                           **** GX
+    _SCY_REG                           **** GX
+    _SC_REG                            **** GX
+    _STAT_REG                          **** GX
+    _SVBK_REG                          **** GX
+  1 _Sprites                           0000 GR
+    _TAC_REG                           **** GX
+    _TIMA_REG                          **** GX
+    _TMA_REG                           **** GX
+  0 _UpdateScore                       00D8 GR
+    _VBK_REG                           **** GX
+    _WX_REG                            **** GX
+    _WY_REG                            **** GX
+  0 ___Render_end                      00D1 R
+  0 ___Render_start                    0000 R
+  0 ___RestartGame_end                 015A R
+  0 ___RestartGame_start               011E R
+  0 ___UpdateScore_end                 00F9 R
+  0 ___UpdateScore_start               00D8 R
+  0 ___main_end                        062B R
+  0 ___main_start                      015A R
+    __cpu                              **** GX
+    __io_in                            **** GX
+    __io_out                           **** GX
+    __io_status                        **** GX
+    __mulschar                         **** GX
+  0 __str_0                            00F9 R
+  0 __str_1                            010D R
+  0 __str_2                            062B R
+  0 __str_3                            0633 R
+  1 _ballDirectionX                    0024 GR
+  1 _ballDirectionY                    0025 GR
+  1 _ballPositionX                     0020 GR
+  1 _ballPositionY                     0022 GR
+    _delay                             **** GX
+  1 _enemyPaddle                       0028 GR
+  1 _enemyScore                        002C GR
+    _font_ibm                          **** GX
+    _font_ibm_fixed                    **** GX
+    _font_init                         **** GX
+    _font_italic                       **** GX
+    _font_load                         **** GX
+    _font_min                          **** GX
+    _font_spect                        **** GX
+    _joypad                            **** GX
+  0 _main                              015A GR
+    _move_sprite                       **** GX
+  1 _paddle                            0026 GR
+  1 _playerScore                       002A GR
+    _printf                            **** GX
+    _set_sprite_data                   **** GX
+    _set_sprite_tile                   **** GX
+    _sys_time                          **** GX
+
+ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 2.
+
+Area Table
+
+   0 _CODE                              size  661   flags 0
+   1 _DATA                              size   2E   flags 0
+   2 _OVERLAY                           size    0   flags 0
+   3 _ISEG                              size    0   flags 0
+   4 _BSEG                              size    0   flags 0
+   5 _XSEG                              size    0   flags 0
+   6 _GSINIT                            size   FA   flags 0
+   7 _GSFINAL                           size    0   flags 0
+   8 _HOME                              size    0   flags 0
